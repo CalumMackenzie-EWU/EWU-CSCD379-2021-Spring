@@ -31,6 +31,7 @@ namespace SecretSanta.Web.Controllers
             if(ModelState.IsValid)//cal:if data is invalid goes back to create page, but also preserves data.
             {
                 //Users.Add(vModel);
+                vModel.Id = MockData.Users.Count;
                 MockData.Users.Add(vModel);
                 return RedirectToAction(nameof(Index));//cal: the nameof(Index) part helps give us a compiler warning if the Index name changes.
             }
