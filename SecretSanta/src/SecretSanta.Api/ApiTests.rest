@@ -68,7 +68,7 @@ PUT {{host}}/api/user/1
 Content-Type: {{contentType}}
 
 {
-    "id": 1,
+    "id": 35,
     "FirstName": "Burt", 
     "LastName": "Sampson"
 }

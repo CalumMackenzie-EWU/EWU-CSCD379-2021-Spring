@@ -84,6 +84,7 @@ namespace SecretSanta.Api.Controllers
                 {
                     foundUser.FirstName = updatedUser.FirstName;
                     foundUser.LastName = updatedUser.LastName;
+                    foundUser.Id = updatedUser.Id;
                 }
 
                 TheUserManager.Save(foundUser);
