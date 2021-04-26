@@ -16,6 +16,7 @@ namespace SecretSanta.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();//cal: added during assignemnt 4.
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,6 +29,12 @@ namespace SecretSanta.Api
 
             app.UseRouting();
 
+            //cal: this was added and the one below was removed for Assignment 4.
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+            /*
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
@@ -35,6 +42,7 @@ namespace SecretSanta.Api
                     await context.Response.WriteAsync("Hello from API!");
                 });
             });
+            */
         }
     }
 }
