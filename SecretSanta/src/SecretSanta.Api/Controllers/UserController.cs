@@ -22,35 +22,34 @@ namespace SecretSanta.Api.Controllers
         [HttpGet]//cal: This is equivalent to a Read
         public IEnumerable<User> Get()
         {
-            return TestData.Users;
+            //return TestData.Users;
+            return TheUserManager.List();
         }
 
-        //route: api/user/[index]
-        [HttpGet("{index}")]
-        //public string Get(int index)
-        public ActionResult<User?> Get(int index)
+        //route: api/user/[id]
+        [HttpGet("{id}")]
+        public ActionResult<User?> Get(int id)
         {
 
-            if(index < 0 || index >= TestData.Users.Count)
+            if(id < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(id));
             }
-            User? returnedUser = TheUserManager.GetItem(index);
+            User? returnedUser = TheUserManager.GetItem(id);
             return returnedUser;
-            //return TestData.Users[index];
+            //return TestData.Users[id];
         }
 
-        //route: api/user/[index]
-        [HttpDelete("{index}")]//cal: equivalent to delete
-        //public void Delete(int index)
-        public ActionResult Delete(int index)
+        //route: api/user/[id]
+        [HttpDelete("{id}")]//cal: equivalent to delete
+        public ActionResult Delete(int id)
         {
-            //TestData.Users.RemoveAt(index);
-            if(index<0)
+            //TestData.Users.RemoveAt(id);
+            if(id<0)
             {
                 return NotFound();
             }
-            if(TheUserManager.Remove(index))
+            if(TheUserManager.Remove(id))
             {
                 return Ok();
             }
@@ -61,7 +60,6 @@ namespace SecretSanta.Api.Controllers
 
         //route:api/user
         [HttpPost]//cal: equivalent to create
-        //public void Post([FromBody] string userName)
         public ActionResult<User?> Post([FromBody] User? theUser)
         {
             //TestData.Users.Add(userName);
@@ -72,14 +70,14 @@ namespace SecretSanta.Api.Controllers
             return TheUserManager.Create(theUser);
         }
 
-        [HttpPut("{index}")]//cal: equivalent to update
-        public ActionResult Put(int index, [FromBody]UpdateUser? updatedUser)
+        [HttpPut("{id}")]//cal: equivalent to update
+        public ActionResult Put(int id, [FromBody]UpdateUser? updatedUser)
         {
             if(updatedUser is null)
             {
                 return BadRequest();
             }
-            User? foundUser = TheUserManager.GetItem(index);
+            User? foundUser = TheUserManager.GetItem(id);
             if(foundUser is not null)
             {
                 if(!string.IsNullOrWhiteSpace(updatedUser.FirstName) && !string.IsNullOrWhiteSpace(updatedUser.LastName))
@@ -98,10 +96,41 @@ namespace SecretSanta.Api.Controllers
         
 
         /*
-        [HttpPut("{index}")]//cal: equivalent to update
-        public void Put(int index, [FromBody]string userName)
+        //Cal: Below is the basic version of how things work. It became deprecated when we added UserManager.
+        
+        //route: api/user/
+        [HttpGet]//cal: This is equivalent to a Read
+        public IEnumerable<User> Get()
         {
-            TestData.Users[index] = userName;
+            return TestData.Users;   
+        }
+
+        //route: api/user/[id]
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return TestData.Users[id];
+        }
+
+        //route: api/user/[id]
+        [HttpDelete("{id}")]//cal: equivalent to delete
+        public void Delete(int id)
+        {
+            TestData.Users.RemoveAt(id);
+        }
+
+        //route:api/user
+        [HttpPost]//cal: equivalent to create
+        public void Post([FromBody] string userName)
+        {
+            TestData.Users.Add(userName);
+        }
+
+
+        [HttpPut("{id}")]//cal: equivalent to update
+        public void Put(int id, [FromBody]string userName)
+        {
+            TestData.Users[id] = userName;
         }
         */
     }

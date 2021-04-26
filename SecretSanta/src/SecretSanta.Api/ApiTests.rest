@@ -4,25 +4,81 @@
 @host = https://{{hostname}}:{{port}}
 @contentType = application/json
 
+//***GETS***
+
 ###
 GET https://localhost:5101/api/user
 
 ###
+Get {{host}}/api/user/0
+###
 Get {{host}}/api/user/1
+###
+Get {{host}}/api/user/2
+###
+Get {{host}}/api/user/3
+
+//***DELETES***
 
 ###
 DELETE {{host}}/api/user/0
+###
+DELETE {{host}}/api/user/1
+###
+DELETE {{host}}/api/user/2
+###
+DELETE {{host}}/api/user/3
+
+//***POSTS***
 
 //needs an empty space between request and body when using json
 ###
 POST {{host}}/api/user
 Content-Type: application/json
 
-"Magnus"
+{
+    "Id": 3,
+    "FirstName": "Grimjow", 
+    "LastName": "Jaggerjack"
+}
 
+###
+POST {{host}}/api/user
+Content-Type: {{contentType}}
+
+{
+  "Id": 90,
+  "FirstName": "Henry",
+  "LastName": "Cavil"
+}
+
+//***PUTS***
+###
+PUT {{host}}/api/user/2
+Content-Type: {{contentType}}
+
+{
+  "Id": 2,
+  "FirstName": "Barry",
+  "LastName": "Allen"
+}
 
 ###
 PUT {{host}}/api/user/1
-Content-Type: application/json
+Content-Type: {{contentType}}
 
-"Barry"
+{
+    "id": 1,
+    "FirstName": "Burt", 
+    "LastName": "Sampson"
+}
+
+###
+PUT {{host}}/api/user/4
+Content-Type: {{contentType}}
+
+{
+    "id": 4,
+    "FirstName": "Thunder", 
+    "LastName": "Cats"
+}
