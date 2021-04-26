@@ -1,0 +1,28 @@
+
+@hostname = localhost
+@port = 5101
+@host = https://{{hostname}}:{{port}}
+@contentType = application/json
+
+###
+GET https://localhost:5101/api/user
+
+###
+Get {{host}}/api/user/1
+
+###
+DELETE {{host}}/api/user/0
+
+//needs an empty space between request and body when using json
+###
+POST {{host}}/api/user
+Content-Type: application/json
+
+"Magnus"
+
+
+###
+PUT {{host}}/api/user/1
+Content-Type: application/json
+
+"Barry"
