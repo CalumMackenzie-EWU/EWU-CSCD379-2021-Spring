@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SecretSanta.Business;
 
 namespace SecretSanta.Api
 {
@@ -16,6 +17,9 @@ namespace SecretSanta.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddTransient //cal: this calls the constructor each time it needs a new one.
+            //services.AddScoped //cal: calls for each http request. Two users could get the same instance of the object.
+            services.AddSingleton<IUserRepository, UserManager>();//cal: this will call your constructor once.
             services.AddControllers();//cal: added during assignemnt 4.
         }
 
