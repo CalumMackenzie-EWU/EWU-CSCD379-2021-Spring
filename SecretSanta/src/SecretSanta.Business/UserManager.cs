@@ -13,13 +13,13 @@ namespace SecretSanta.Business
             return item;
         }
 
-        public User? GetItem(int id)
+        public User? GetItem(int index)
         {
-            if (id < 0)
+            if(index < 0 || index >= TestData.Users.Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(id));
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
-            return TestData.Users.FirstOrDefault(x => x.Id == id);
+            return TestData.Users.FirstOrDefault(x => x.Id == index);
         }
 
         public ICollection<User> List()

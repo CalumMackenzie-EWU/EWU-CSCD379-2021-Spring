@@ -3,6 +3,7 @@ using SecretSanta.Data;
 using System.Collections.Generic;
 using SecretSanta.Business;
 using System;
+using SecretSanta.Api.Dto;
 
 namespace SecretSanta.Api.Controllers
 {
@@ -26,31 +27,82 @@ namespace SecretSanta.Api.Controllers
 
         //route: api/user/[index]
         [HttpGet("{index}")]
-        public string Get(int index)
+        //public string Get(int index)
+        public ActionResult<User?> Get(int index)
         {
-            return "";
+
+            if(index < 0 || index >= TestData.Users.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            User? returnedUser = TheUserManager.GetItem(index);
+            return returnedUser;
             //return TestData.Users[index];
         }
 
         //route: api/user/[index]
         [HttpDelete("{index}")]//cal: equivalent to delete
-        public void Delete(int index)
+        //public void Delete(int index)
+        public ActionResult Delete(int index)
         {
-            TestData.Users.RemoveAt(index);
+            //TestData.Users.RemoveAt(index);
+            if(index<0)
+            {
+                return NotFound();
+            }
+            if(TheUserManager.Remove(index))
+            {
+                return Ok();
+            }
+            else{
+                return NotFound();
+            }
         }
 
         //route:api/user
         [HttpPost]//cal: equivalent to create
-        public void Post([FromBody] string userName)
+        //public void Post([FromBody] string userName)
+        public ActionResult<User?> Post([FromBody] User? theUser)
         {
             //TestData.Users.Add(userName);
+            if(theUser is null)
+            {
+                return BadRequest();
+            }
+            return TheUserManager.Create(theUser);
         }
 
         [HttpPut("{index}")]//cal: equivalent to update
-        public void Put(int index, [FromBody]string userName)
+        public ActionResult Put(int index, [FromBody]UpdateUser? updatedUser)
         {
-            //TestData.Users[index] = userName;
+            if(updatedUser is null)
+            {
+                return BadRequest();
+            }
+            User? foundUser = TheUserManager.GetItem(index);
+            if(foundUser is not null)
+            {
+                if(!string.IsNullOrWhiteSpace(updatedUser.FirstName) && !string.IsNullOrWhiteSpace(updatedUser.LastName))
+                {
+                    foundUser.FirstName = updatedUser.FirstName;
+                    foundUser.LastName = updatedUser.LastName;
+                }
+
+                TheUserManager.Save(foundUser);
+                return Ok();
+            }
+            else{
+                return NotFound();
+            }
         }
         
+
+        /*
+        [HttpPut("{index}")]//cal: equivalent to update
+        public void Put(int index, [FromBody]string userName)
+        {
+            TestData.Users[index] = userName;
+        }
+        */
     }
 }
