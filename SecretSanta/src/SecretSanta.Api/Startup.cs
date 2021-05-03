@@ -14,6 +14,8 @@ namespace SecretSanta.Api
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
+            
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -24,6 +26,7 @@ namespace SecretSanta.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            //cal: order inside Configure does matter.
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
