@@ -26,7 +26,9 @@ namespace SecretSanta.Web
             //System.Net.Http.HttpClient client = new();
             //cal: dont dispose of the client or you may run out of tcp sockets.
             //services.AddScoped<UsersClient>()//cal: this only calls the default constructor. Have to use the one below.
-            services.AddScoped<UsersClient>(x=> new UsersClient(ApiClient));
+            //services.AddScoped<UsersClient>(x=> new UsersClient(ApiClient));//cal: this got changed after building Interface. To the on below
+            services.AddScoped<IUsersClient, UsersClient>(x=> new UsersClient(ApiClient));
+            
             services.AddControllersWithViews();
         }
 
