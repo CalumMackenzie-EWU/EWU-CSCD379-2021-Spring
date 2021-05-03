@@ -1,11 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using SecretSanta.Web.Data;
 using SecretSanta.Web.ViewModels;
+using SecretSanta.Web.Api;
+using System;
 
 namespace SecretSanta.Web.Controllers
 {
     public class UsersController : Controller
     {
+        public UsersClient Client{get;}
+        public UsersController(UsersClient theClient) //cal:adds dependency
+        {
+            Client = theClient ?? throw new ArgumentNullException(nameof(theClient));
+        }   
         public IActionResult Index()
         {
             return View(MockData.Users);

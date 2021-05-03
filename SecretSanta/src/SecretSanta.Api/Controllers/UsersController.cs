@@ -35,6 +35,10 @@ namespace SecretSanta.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
+            if(id<0)
+            {
+                return NotFound();
+            }
             if (Repository.Remove(id))
             {
                 return Ok();
