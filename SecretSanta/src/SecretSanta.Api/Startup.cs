@@ -26,11 +26,13 @@ namespace SecretSanta.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            
+
+            app.UseRouting();
+
             //cal: order inside Configure does matter.
             app.UseOpenApi();
             app.UseSwaggerUi3();
-
-            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {

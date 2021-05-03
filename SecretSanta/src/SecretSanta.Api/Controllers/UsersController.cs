@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SecretSanta.Business;
 using SecretSanta.Data;
+using SecretSanta.Api.Dto;
 
 namespace SecretSanta.Api.Controllers
 {
@@ -19,12 +20,15 @@ namespace SecretSanta.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<User> Get()
         {
             return Repository.List();
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<User?> Get(int id)
         {
             User? user = Repository.GetItem(id);
@@ -33,6 +37,7 @@ namespace SecretSanta.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]//cal: these are status codes to do with ActionResult
         public ActionResult Delete(int id)
         {
@@ -60,6 +65,9 @@ namespace SecretSanta.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult Put(int id, [FromBody] User? user)
         {
             if (user is null)

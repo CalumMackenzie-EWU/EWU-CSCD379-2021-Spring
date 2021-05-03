@@ -26,6 +26,7 @@ namespace SecretSanta.Web.Controllers
         public async Task<IActionResult> Index()//cal: This version is used for multithreading.
         {
             ICollection<User> users =  await Client.GetAllAsync();
+           
             List<UserViewModel> viewModelUsers = new();
             foreach(User u in users)
             {
