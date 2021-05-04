@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SecretSanta.Business;
 using SecretSanta.Data;
 using SecretSanta.Api.Dto;
+using System.Linq;
 
 namespace SecretSanta.Api.Controllers
 {
@@ -21,19 +22,36 @@ namespace SecretSanta.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-        public IEnumerable<User> Get()
+        //public IEnumerable<User> Get()
+        public IEnumerable<FullUser> Get()
         {
-            return Repository.List();
+            //return Repository.List();
+            ICollection<User> tempUsers = Repository.List();
+
+            return tempUsers.Select(tUser => new FullUser{
+                FirstName = tUser.FirstName,
+                LastName = tUser.LastName,
+                Id = tUser.Id
+            });
+            
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FullUser), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<User?> Get(int id)
+        //public ActionResult<User?> Get(int id)
+        public ActionResult<FullUser?> Get(int id)
         {
             User? user = Repository.GetItem(id);
             if (user is null) return NotFound();
-            return user;
+            //return user;
+
+            return new FullUser()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = user.Id
+            };
         }
 
         [HttpDelete("{id}")]
@@ -54,21 +72,29 @@ namespace SecretSanta.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        public ActionResult<User?> Post([FromBody] User? user)
+        [ProducesResponseType(typeof(FullUser), StatusCodes.Status200OK)]
+        //public ActionResult<User?> Post([FromBody] User? user)
+        public ActionResult<FullUser?> Post([FromBody] FullUser? user)
         {
             if (user is null)
             {
                 return BadRequest();
             }
-            return Repository.Create(user);
+            //return Repository.Create(user);
+            Repository.Create(new User{
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Id = (Repository.List().Select(item => item.Id).Max() + 1)
+            });
+
+            return user;
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Put(int id, [FromBody] User? user)
+        public ActionResult Put(int id, [FromBody] FullUser? user)
         {
             if (user is null)
             {
