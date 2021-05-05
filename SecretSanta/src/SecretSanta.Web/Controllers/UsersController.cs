@@ -5,6 +5,7 @@ using SecretSanta.Web.Api;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace SecretSanta.Web.Controllers
 {
@@ -46,28 +47,50 @@ namespace SecretSanta.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(UserViewModel viewModel)
+        //public IActionResult Create(UserViewModel viewModel)
+        public async Task<IActionResult> Create(UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                MockData.Users.Add(viewModel);
+                //MockData.Users.Add(viewModel);
+                await Client.PostAsync(new FullUser{
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    Id = viewModel.Id
+                });
                 return RedirectToAction(nameof(Index));
             }
 
             return View(viewModel);
         }
 
-        public IActionResult Edit(int id)
+        //public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View(MockData.Users[id]);
+            //return View(MockData.Users[id]);
+            FullUser editUser = await Client.GetAsync(id);
+            UserViewModel updatedUser = new();
+
+            updatedUser.FirstName = editUser.FirstName;
+            updatedUser.LastName = editUser.LastName;
+            updatedUser.Id = (int)editUser.Id;
+            
+            return View(updatedUser);
         }
 
         [HttpPost]
-        public IActionResult Edit(UserViewModel viewModel)
+        //public IActionResult Edit(UserViewModel viewModel)
+        public async Task<IActionResult> Edit(UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                MockData.Users[viewModel.Id] = viewModel;
+                //MockData.Users[viewModel.Id] = viewModel;
+                await Client.PutAsync(viewModel.Id, new FullUser
+                {
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    Id = viewModel.Id
+                });
                 return RedirectToAction(nameof(Index));
             }
 
