@@ -1,5 +1,5 @@
 ﻿
-![](../../workflows/.AssignmentBuild/badge.svg)
+![](../../workflows/.AssignmentBuild.yml/badge.svg)
 
 # Assignment 6
 
