@@ -1,8 +1,7 @@
 ﻿
-![](../../workflows/.AssignmentBuild.yml/badge.svg)
 
 # Assignment 6
-
+![](../../workflows/AssignmentBuild.yml/badge.svg)
 ## Overview
 
 In this project, we are going to configure continuous integration and continuous deployment.
