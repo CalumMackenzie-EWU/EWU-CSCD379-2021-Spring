@@ -16,7 +16,7 @@ jobs:
         working-directory: ./SecretSanta/
     runs-on: ubuntu-latest
 
-steps:
+    steps:
     - uses: actions/checkout@v2
     
     - name: Setup .NET
