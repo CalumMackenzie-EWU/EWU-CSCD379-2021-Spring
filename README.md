@@ -1,7 +1,7 @@
 ﻿
 ![](../../workflows/WebBuildAndTest/badge.svg)
 ![](../../workflows/ApiBuildAndTest/badge.svg)
-![](../../workflows/AzureBuildAndTest/badge.svg)
+![](../../workflows/AzureBuildAndDeploy/badge.svg)
 
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net/)
 
