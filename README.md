@@ -1,5 +1,7 @@
 ﻿
 ![](../../workflows/WebBuildAndTest/badge.svg)
+![](../../workflows/ApiBuildAndTest/badge.svg)
+
 # Assignment 6
 
 ## Overview
