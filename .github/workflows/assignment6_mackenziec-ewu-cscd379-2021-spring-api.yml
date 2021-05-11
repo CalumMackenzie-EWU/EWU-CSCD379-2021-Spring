@@ -1,7 +1,8 @@
 # Docs for the Azure Web Apps Deploy action: https://go.microsoft.com/fwlink/?linkid=2134798
 # More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
 
-name: Azure App Service - MackenzieC-EWU-CSCD379-2021-Spring-API(Production), Build and deploy DotnetCore app
+#name: Azure App Service - MackenzieC-EWU-CSCD379-2021-Spring-API(Production), Build and deploy DotnetCore app
+name: AzureBuildAndDeployApi
 
 on:
   push:
@@ -27,7 +28,7 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Api
 
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
@@ -35,5 +36,5 @@ jobs:
         app-name: MackenzieC-EWU-CSCD379-2021-Spring-API
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5D1D55A7080D442D9EB399BC7F099892 }}
-        package: ${{env.DOTNET_ROOT}}/myapp
+        package: ${{env.DOTNET_ROOT}}/Api
 

@@ -14,7 +14,7 @@ namespace SecretSanta.Web
         {
             //BaseAddress = new Uri("https://localhost:5101/")
             //cal: the above gets swtiched out in assignment 6.
-            BaseAddress = new Uri("https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net")
+            BaseAddress = new Uri("https://mackenziec-ewu-cscd379-2021-spring-api.azurewebsites.net")
         };
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
