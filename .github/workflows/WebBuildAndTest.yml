@@ -31,10 +31,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build
+    - name: Build Web
       run: dotnet build --no-restore
 
-    - name: Test
+    - name: Test Web
       run: dotnet test --no-build --verbosity normal
       
     - name: Verify Build Badge
