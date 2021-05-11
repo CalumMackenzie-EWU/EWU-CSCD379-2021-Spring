@@ -2,6 +2,10 @@
 ![](../../workflows/WebBuildAndTest/badge.svg)
 ![](../../workflows/ApiBuildAndTest/badge.svg)
 
+
+Website: https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net
+Assigment 6 repo: https://github.com/CalumMackenzie-EWU/EWU-CSCD379-2021-Spring/tree/Assignment6
+
 # Assignment 6
 
 ## Overview
