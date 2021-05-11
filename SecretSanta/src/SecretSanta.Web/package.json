@@ -6,7 +6,8 @@
     "build:prod":"run-script-os",
     "build:dev": "webpack --mode development --watch",
     "build:prod:linux": "export NODE_ENV=production && webpack --mode production",
-    "build:prod:win32": "SET NODE_ENV=production & webpack --mode production"
+    "build:prod:win32": "SET \"NODE_ENV=production\" & webpack --mode production",
+    "build:prod:darwin": "export NODE_ENV=production && webpack --mode production"
   },
   "cal: comments":{
     "_cmt1":"cal: You can write comments like this for json files since they dont support it normally.",
