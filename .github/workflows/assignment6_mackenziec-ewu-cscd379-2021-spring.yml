@@ -63,7 +63,7 @@ jobs:
         app-name: MackenzieC-EWU-CSCD379-2021-Spring
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A7DC7A3708E343EBA78E226093799FC5 }}
-        package: ${{env.DOTNET_ROOT}}/binSecretSanta
+        package: ${{env.DOTNET_ROOT}}/Web
 
     - name: Verify Build Badge
       working-directory: ./
