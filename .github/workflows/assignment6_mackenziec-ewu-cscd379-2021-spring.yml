@@ -5,29 +5,45 @@ name: Azure App Service - MackenzieC-EWU-CSCD379-2021-Spring(Production), Build 
 
 on:
   push:
-    branches:
-      - Assignment6
+    branches: [ Assignment* ]
+  pull_request:
+    branches: [ Assignment* ]
 
 jobs:
-  build-and-deploy:
+  build:
+    defaults:
+      run:
+        working-directory: ./SecretSanta/
     runs-on: ubuntu-latest
 
-    steps:
-    # checkout the repo
-    - name: 'Checkout Github Action'
-      uses: actions/checkout@master
-
-
-    - name: Set up .NET Core
+steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'
+        dotnet-version: 5.0.x
+    - name: Get Directory
+      run: pwd
 
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+    - name: Run Npm Build
+      working-directory: ./SecretSanta/src/SecretSanta.Web/
+      run: |
+        npm install
+        npm run build:prod
 
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build Web
+      run: dotnet build --no-restore
+
+    - name: Test Web
+      run: dotnet test --no-build --verbosity normal
+      
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      working-directory: ./SecretSanta/src/SecretSanta.Web/
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/binSecretSanta
 
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
@@ -35,5 +51,15 @@ jobs:
         app-name: MackenzieC-EWU-CSCD379-2021-Spring
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A7DC7A3708E343EBA78E226093799FC5 }}
-        package: ${{env.DOTNET_ROOT}}/myapp
+        package: ${{env.DOTNET_ROOT}}/binSecretSanta
+
+    - name: Verify Build Badge
+      working-directory: ./
+      shell: pwsh
+      run: |
+        [bool]$buildBadgeExists=$false
+        Get-Item ./README.md | Get-Content | Where-Object { $_ -like "*badge.svg*"} | Foreach-Object { $buildBadgeExists = $true; break }
+        if(-not $buildBadgeExists) {
+          throw "Build Badge does not exist in README.md"
+        }
 
