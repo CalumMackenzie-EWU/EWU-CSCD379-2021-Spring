@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
 
 #name: Azure App Service - MackenzieC-EWU-CSCD379-2021-Spring(Production), Build and deploy DotnetCore app
-name: AzureBuildAndDeploy
+name: AzureBuildAndDeployWeb
 
 on:
   push:
