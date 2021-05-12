@@ -9,7 +9,7 @@
 ## Link Badges
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net/)
 
-https://img.shields.io/endpoint?url=<https://github.com/CalumMackenzie-EWU/EWU-CSCD379-2021-Spring/tree/Assignment6>&style<?style=plastic&logo=appveyor>
+[![Website shields.io](https://img.shields.io/endpoint?url=<https://github.com/CalumMackenzie-EWU/EWU-CSCD379-2021-Spring/tree/Assignment6>&style<?style=plastic&logo=appveyor>)
 
 Website: https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net
 Assigment 6 repo: https://github.com/CalumMackenzie-EWU/EWU-CSCD379-2021-Spring/tree/Assignment6
