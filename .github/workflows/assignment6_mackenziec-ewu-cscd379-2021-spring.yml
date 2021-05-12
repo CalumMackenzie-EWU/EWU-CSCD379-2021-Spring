@@ -45,6 +45,7 @@ jobs:
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Web
 
     - name: Test Web
+      working-directory: ./SecretSanta/src/SecretSanta.Web/
       run: dotnet test --no-build --verbosity normal
 
     - name: Run Azure webapp deploy action using publish profile credentials
