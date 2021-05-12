@@ -34,6 +34,10 @@ jobs:
       working-directory: ./SecretSanta/src/SecretSanta.Api/
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Api
 
+    - name: Test Api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
+      run: dotnet test --no-build --verbosity normal
+
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
       with:
