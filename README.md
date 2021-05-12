@@ -9,7 +9,7 @@
 ## Link Badges
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net/)
 
-[![Website shields.io](https://img.shields.io/endpoint?url=https://www.google.com&style?style=plastic&logo=appveyor)
+[![Website shields.io](https://img.shields.io/endpoint?url=https://www.google.com/&style?style=plastic&logo=appveyor)
 
 Website: https://mackenziec-ewu-cscd379-2021-spring.azurewebsites.net
 
