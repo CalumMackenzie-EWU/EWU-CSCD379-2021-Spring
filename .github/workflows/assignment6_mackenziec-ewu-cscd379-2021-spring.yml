@@ -36,24 +36,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build Api
-      working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: dotnet build --no-restore
-
-    - name: Build Web
-      run: dotnet build --no-restore
-
-    - name: Test Api
-      working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: dotnet test --no-build --verbosity normal
-
-    - name: Test Web
-      working-directory: ./SecretSanta/src/SecretSanta.Web/
-      run: dotnet test --no-build --verbosity normal
     
-    - name: dotnet publish Api
-      working-directory: ./SecretSanta/src/SecretSanta.Api/
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Api
+    
+    
       
     - name: dotnet publish Web
       working-directory: ./SecretSanta/src/SecretSanta.Web/

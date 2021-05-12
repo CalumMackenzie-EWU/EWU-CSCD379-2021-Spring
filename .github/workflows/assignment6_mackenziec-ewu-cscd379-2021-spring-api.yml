@@ -11,6 +11,9 @@ on:
 
 jobs:
   build-and-deploy:
+    defaults:
+      run:
+        working-directory: ./SecretSanta/
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +30,8 @@ jobs:
     - name: Build with dotnet
       run: dotnet build --configuration Release
 
-    - name: dotnet publish
+    - name: dotnet publish Api
+      working-directory: ./SecretSanta/src/SecretSanta.Api/
       run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/Api
 
     - name: Run Azure webapp deploy action using publish profile credentials
