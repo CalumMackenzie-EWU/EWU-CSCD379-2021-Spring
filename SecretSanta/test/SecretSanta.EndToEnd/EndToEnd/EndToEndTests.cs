@@ -167,7 +167,7 @@ namespace SecretSanta.EndToEnd.Tests
             await page.ClickAsync("body > section > section > section:last-child > a > section > form > button");
             
             gifts = await page.QuerySelectorAllAsync("body > section > section > section");
-            Assert.AreEqual(3, gifts.Count());
+            Assert.AreEqual(4, gifts.Count());
         }
 
         
