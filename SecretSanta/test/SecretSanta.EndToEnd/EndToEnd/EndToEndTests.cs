@@ -8,20 +8,20 @@ namespace SecretSanta.EndToEnd.Tests
     [TestClass]
     public class EndToEndTests
     {
-        private static WebHostServerFixture<SecretSanta.Web.Startup, SecretSanta.Api.Startup> theServer;
+        private static WebHostServerFixture<SecretSanta.Web.Startup, SecretSanta.Api.Startup> theServers;//cal: This startsup the Api and Web server
         //cal: The WebHostServer had multiple steps to it. First creating the WebHostServerFixture.cs file
         //Then copying from the lectures as suggested. Then adding project references into the EndToEnd project.
         //All of this allows us to not have to run the Web project from the command line during the testing.
         [ClassInitialize]//cal: this only run once during Class initialization, so we only start the server once.
         public static void InitializeClass(TestContext testContext)
         {
-            theServer = new();
+            theServers = new();
         }
 
         [TestMethod]
         public async Task LaunchHomepage()
         {
-            var localhost = theServer.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
@@ -42,6 +42,7 @@ namespace SecretSanta.EndToEnd.Tests
         [TestMethod]
         public async Task CreateGift()
         {
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
@@ -49,7 +50,7 @@ namespace SecretSanta.EndToEnd.Tests
             });
 
             var page = await browser.NewPageAsync();
-            var response = await page.GoToAsync("https://localhost:5001");
+            var response = await page.GoToAsync(localhost);
 
             Assert.IsTrue(response.Ok);
 
