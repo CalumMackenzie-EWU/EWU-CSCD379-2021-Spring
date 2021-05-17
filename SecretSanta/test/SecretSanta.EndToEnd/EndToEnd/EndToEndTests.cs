@@ -3,14 +3,25 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PlaywrightSharp;
 using System.Linq;
 
-namespace SecretSanta.Web.Tests
+namespace SecretSanta.EndToEnd.Tests
 {
     [TestClass]
     public class EndToEndTests
     {
+        private static WebHostServerFixture<SecretSanta.Web.Startup, SecretSanta.Api.Startup> theServer;
+        //cal: The WebHostServer had multiple steps to it. First creating the WebHostServerFixture.cs file
+        //Then copying from the lectures as suggested. Then adding project references into the EndToEnd project.
+        //All of this allows us to not have to run the Web project from the command line during the testing.
+        [ClassInitialize]//cal: this only run once during Class initialization, so we only start the server once.
+        public static void InitializeClass(TestContext testContext)
+        {
+            theServer = new();
+        }
+
         [TestMethod]
         public async Task LaunchHomepage()
         {
+            var localhost = theServer.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
@@ -18,7 +29,8 @@ namespace SecretSanta.Web.Tests
             });
 
             var page = await browser.NewPageAsync();
-            var response = await page.GoToAsync("https://localhost:5001");
+            //var response = await page.GoToAsync("https://localhost:5001");
+            var response = await page.GoToAsync(localhost);//cal: This changes after we added the WebHostServer stuff.
 
             Assert.IsTrue(response.Ok);
 
