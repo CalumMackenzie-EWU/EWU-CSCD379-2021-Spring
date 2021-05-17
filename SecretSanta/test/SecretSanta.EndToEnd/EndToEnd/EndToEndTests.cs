@@ -119,8 +119,8 @@ namespace SecretSanta.EndToEnd.Tests
             await page.ClickAsync("text=Gifts");
 
             //cal:testing to see if we go from our 5 users in the Api. To 6 after we create a user.
-            var users = await page.QuerySelectorAllAsync("body > section > section > section");
-            Assert.AreEqual(4, users.Count());
+            var gifts = await page.QuerySelectorAllAsync("body > section > section > section");
+            Assert.AreEqual(4, gifts.Count());
             
             await page.ClickAsync("text=Create");
 
@@ -135,8 +135,39 @@ namespace SecretSanta.EndToEnd.Tests
             await page.ClickAsync("text=Create");//cal: create the Gift.
 
             //cal: now we see if we created a new gift.
-            users = await page.QuerySelectorAllAsync("body > section > section > section");
-            Assert.AreEqual(5, users.Count());
+            gifts = await page.QuerySelectorAllAsync("body > section > section > section");
+            Assert.AreEqual(5, gifts.Count());
+        }
+
+
+
+        [TestMethod]
+        public async Task DeleteGift()
+        {
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
+            {
+                Headless = true     
+            });
+
+            var page = await browser.NewPageAsync();
+            var response = await page.GoToAsync(localhost);
+
+            Assert.IsTrue(response.Ok);
+
+            await page.ClickAsync("text=Gifts");
+
+           
+            var gifts = await page.QuerySelectorAllAsync("body > section > section > section");
+            bool giftsNotEmpty = gifts.Count() >= 1;
+            Assert.IsTrue(giftsNotEmpty);
+            
+            page.Dialog += (_, args) => args.Dialog.AcceptAsync();
+            await page.ClickAsync("body > section > section > section:last-child > a > section > form > button");
+            
+            gifts = await page.QuerySelectorAllAsync("body > section > section > section");
+            Assert.AreEqual(3, gifts.Count());
         }
 
         
