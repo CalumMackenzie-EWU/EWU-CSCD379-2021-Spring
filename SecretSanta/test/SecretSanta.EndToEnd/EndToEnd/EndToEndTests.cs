@@ -25,7 +25,7 @@ namespace SecretSanta.EndToEnd.Tests
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
-                Headless = false
+                Headless = true
             });
 
             var page = await browser.NewPageAsync();
@@ -38,7 +38,68 @@ namespace SecretSanta.EndToEnd.Tests
             Assert.AreEqual("Secret Santa", headerContent);
         }
 
+        //Test Navigation
+        [TestMethod]
+        public async Task NavigateToUsers()
+        {
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
+            {
+                Headless = true
+            });
+
+            var page = await browser.NewPageAsync();
+            var response = await page.GoToAsync(localhost);
+
+            Assert.IsTrue(response.Ok);
+
+            await page.ClickAsync("text=Users");
+            var aTagContent = await page.GetTextContentAsync("body>section>a");
+            Assert.AreEqual("Create", aTagContent);
+        }
         
+        [TestMethod]
+        public async Task NavigateToGroups()
+        {
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
+            {
+                Headless = true
+            });
+
+            var page = await browser.NewPageAsync();
+            var response = await page.GoToAsync(localhost);
+
+            Assert.IsTrue(response.Ok);
+
+            await page.ClickAsync("text=Groups");
+            var aTagContent = await page.GetTextContentAsync("body>section>a");
+            Assert.AreEqual("Create", aTagContent);
+        }
+
+        [TestMethod]
+        public async Task NavigateToGifts()
+        {
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
+            {
+                Headless = true
+            });
+
+            var page = await browser.NewPageAsync();
+            var response = await page.GoToAsync(localhost);
+
+            Assert.IsTrue(response.Ok);
+
+            await page.ClickAsync("text=Gifts");
+            var aTagContent = await page.GetTextContentAsync("body>section>a");
+            Assert.AreEqual("Create", aTagContent);
+        }
+        
+        //CRUD tests
         [TestMethod]
         public async Task CreateGift()
         {
