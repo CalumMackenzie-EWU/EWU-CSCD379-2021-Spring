@@ -42,7 +42,7 @@ namespace SecretSanta.EndToEnd.Tests
         [TestMethod]
         public async Task NavigateToUsers()
         {
-            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
@@ -62,7 +62,7 @@ namespace SecretSanta.EndToEnd.Tests
         [TestMethod]
         public async Task NavigateToGroups()
         {
-            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
@@ -82,7 +82,7 @@ namespace SecretSanta.EndToEnd.Tests
         [TestMethod]
         public async Task NavigateToGifts()
         {
-            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");//cal: due to the Lazy part we wrote. It isnt till here where the code actually gets used.
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
             {
@@ -168,6 +168,55 @@ namespace SecretSanta.EndToEnd.Tests
             
             gifts = await page.QuerySelectorAllAsync("body > section > section > section");
             Assert.AreEqual(4, gifts.Count());
+        }
+
+        [TestMethod]
+        public async Task EditGift()
+        {
+            var localhost = theServers.WebRootUri.AbsoluteUri.Replace("127.0.0.1","localhost");
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync(new LaunchOptions
+            {
+                Headless = true     
+            });
+
+            var page = await browser.NewPageAsync();
+            var response = await page.GoToAsync(localhost);
+
+            Assert.IsTrue(response.Ok);
+
+            await page.ClickAsync("text=Gifts");
+
+            var gifts = await page.QuerySelectorAllAsync("body > section > section > section");
+            bool giftsNotEmpty = gifts.Count() >= 1;
+            Assert.IsTrue(giftsNotEmpty);
+
+            var giftLabel = await page.GetTextContentAsync("body > section > section > section:last-child > a > section > div");
+            
+            Assert.AreEqual("Drone", giftLabel);
+            
+            
+            await page.ClickAsync("body>section > section > section:last-child");
+
+            await page.ClickAsync("input#Title", clickCount:3);//cal: This is how you select text in textbox
+            await page.TypeAsync("input#Title", "UAV scanner");//cal: This is how you update the text.
+            await page.ClickAsync("input#Description", clickCount:3);
+            await page.TypeAsync("input#Description", "Scans the battlefield for those not running a cold blooded perk.");
+            await page.ClickAsync("input#Url", clickCount:3);
+            await page.TypeAsync("input#Url", "https://www.us.gov");
+            await page.ClickAsync("input#Priority", clickCount:3);
+            await page.TypeAsync("input#Priority", "5");
+
+            await page.SelectOptionAsync("select#UserId", "2");
+            
+            await page.ScreenshotAsync("EndToEndScreenshots/GiftViewBeforeUpdate.png");
+            await page.ClickAsync("text=Update");//cal: we should be on the homepage after this, so need to navigate back to verify edit worked.
+                
+            await page.ScreenshotAsync("EndToEndScreenshots/GiftsAfterUpdate.png");
+            var giftValues = await page.GetTextContentAsync("body > section > section > section:last-child");
+            Assert.IsTrue(giftValues.Contains("UAV scanner"));
+                     
+            
         }
 
         
