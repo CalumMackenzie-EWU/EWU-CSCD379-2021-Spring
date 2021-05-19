@@ -12,7 +12,10 @@ import axios from 'axios';
 library.add(fas, far, fab);
 dom.watch();
 
-interface User{}
+interface User{
+    firstName: string,
+    lastName: string
+}
 
 export function setupNav() {
     return {
@@ -36,7 +39,22 @@ export function setupNav() {
 export function setupUsers() {
     return {
         users: [] as User[],
-        async mounted(){//cal: this is where we make a call to the Api. Also be aware that everything in js is asynchronous. Also the name mounted matches what we have in html. But could be whatever we wanted, e.g loadUsers().
+        async mounted()//cal: this is where we make a call to the Api. Also be aware that everything in js is asynchronous. Also the name mounted matches what we have in html. But could be whatever we wanted, e.g loadUsers().
+        {            
+            await this.loadUsers();
+        },
+        
+        async deleteUser(userId: number)
+        {
+            if(confirm('Are you sure you wish to delete?'))
+            {
+                await axios.delete('https://localhost:5101/api/users/${userId}');
+                await this.loadUsers();
+            }
+        },
+
+        async loadUsers()//cal: the reason we moved this into loadUsers() was so it can be called like a page refresh in other functions
+        {
             try{
                 const response = await axios.get("https://localhost:5101/api/users");
                 this.users = response.data;
