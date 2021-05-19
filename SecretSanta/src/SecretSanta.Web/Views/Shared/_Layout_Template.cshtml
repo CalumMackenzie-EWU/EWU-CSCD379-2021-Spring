@@ -1,3 +1,6 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@*cal:The above are used so we can share the Api Host*@
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,9 +30,16 @@
         @RenderBody()
     </section>
     <!-- Scripts -->
+    <!--cal: this api script is here to make a global variable anyone can use. I believe order matters here. -->
+    <!--cal: We trim the end in here so we can decide on our end whether a trailing '/' is necessary. -->
+    <script>
+        var apiHost = "@Configuration["ApiHost"].TrimEnd('/')";
+    </script>
+
     <% for (var index in htmlWebpackPlugin.files.js) { %>
     <script src="~<%= htmlWebpackPlugin.files.js[index] %>"></script>
     <% } %>
+    
     <!-- End Scripts -->
 </body>
 </html>
