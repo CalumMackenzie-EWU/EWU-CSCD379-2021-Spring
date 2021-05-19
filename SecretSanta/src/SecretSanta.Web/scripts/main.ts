@@ -14,7 +14,8 @@ dom.watch();
 
 interface User{
     firstName: string,
-    lastName: string
+    lastName: string,
+    id: number
 }
 
 export function setupNav() {
@@ -43,12 +44,12 @@ export function setupUsers() {
         {            
             await this.loadUsers();
         },
-        
-        async deleteUser(userId: number)
+
+        async deleteUser(currentUser: User)
         {
-            if(confirm('Are you sure you wish to delete?'))
+            if(confirm(`Are you sure you wish to delete ${currentUser.firstName} ${currentUser.lastName}?`))
             {
-                await axios.delete('https://localhost:5101/api/users/${userId}');
+                await axios.delete(`https://localhost:5101/api/users/${currentUser.id}`);//cal: keep in mind that this isnt a single quote. Its from the tilde key.
                 await this.loadUsers();
             }
         },

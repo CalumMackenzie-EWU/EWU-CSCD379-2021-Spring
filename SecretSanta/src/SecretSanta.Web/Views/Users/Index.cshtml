@@ -1,6 +1,6 @@
 @model List<UserViewModel>
 
-
+@*
 <section class="flex flex-wrap mb-6">
     @foreach(var userViewModel in Model) {
         <section class="w-full sm:w-1/3">
@@ -15,7 +15,7 @@
         </section>
     }
 </section>
-
+*@
 
 <section class="flex flex-wrap mb-6" x-data="SecretSanta.setupUsers()" x-init="mounted()">
     <template x-for="(currentUser, index) in users" :key="index">
@@ -23,7 +23,7 @@
             <a :href="'https://localhost:5001/users/edit/' + currentUser.id"><!--cal: the : in the :href is shorthand of x-bind:type = "href" -->
                 <section class="border-gray-500 hover:shadow-xl border-2 p-6 m-5 rounded-xl flex flex-row justify-between">
                     <div class="inline-block"><span x-text="currentUser.firstName"></span> <span x-text="currentUser.lastName"></span></div>
-                    <button class="-mt-6" @@click.prevent="deleteUser(currentUser.id)"><i class="fas fa-trash text-gray-700 hover:text-red-700"></i></button><!--cal: the [at] symbol infront of [at][at]onclick is shorthand for x-on in Alpine. The reason we have 2 is because asp net uses it for escaping. So we need the second to make the first work.-->
+                    <button class="-mt-6" @@click.prevent="deleteUser(currentUser)"><i class="fas fa-trash text-gray-700 hover:text-red-700"></i></button><!--cal: the [at] symbol infront of [at][at]onclick is shorthand for x-on in Alpine. The reason we have 2 is because asp net uses it for escaping. So we need the second to make the first work.-->
                 </section><!--cal: the [at][at]click.prevent = click is the alpine vers of js's onclick. And the .prevent keeps the edit page from reacting when we click the delete button. -->
             </a>
         </section>
