@@ -16,8 +16,10 @@ namespace SecretSanta.Web.Controllers
             UserClient = userClient ?? throw new ArgumentNullException(nameof(userClient));
         }
 
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
+            /*
             var users = await UserClient.GetAllAsync();
             var userViewModels = users.Select(x => new UserViewModel
             {
@@ -26,6 +28,8 @@ namespace SecretSanta.Web.Controllers
                 LastName = x.LastName
             }).ToList();
             return View(userViewModels);
+            */
+            return View();//cal: Were commenting out the above and now returning this since we are no longer using the server side fetch. But the client side one.
         }
 
         public IActionResult Create()
@@ -33,6 +37,7 @@ namespace SecretSanta.Web.Controllers
             return View();
         }
 
+        /*
         [HttpPost]
         public async Task<IActionResult> Create(UserViewModel viewModel)
         {
@@ -49,6 +54,7 @@ namespace SecretSanta.Web.Controllers
 
             return View(viewModel);
         }
+        */
 
         public async Task<IActionResult> Edit(int id)
         {

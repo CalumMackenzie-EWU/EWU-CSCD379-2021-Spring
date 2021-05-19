@@ -12,7 +12,7 @@ import axios from 'axios';
 library.add(fas, far, fab);
 dom.watch();
 
-interface User{
+interface User{//cal: This just helps with dot notation. Doesent necessarily need every field.
     firstName: string,
     lastName: string,
     id: number
@@ -64,4 +64,20 @@ export function setupUsers() {
             }
         }
     }
-}
+}//end setupUsers
+
+export function createOrUpdateUser(){
+    return{
+        user: {} as User,
+        async create()
+        {
+            try{
+                //cal: this part isnt for our assingment. But when working with a date you may need to convert the object by wrapping it as a this.user.date = new Date(this.user.date);
+                await axios.post("https://localhost:5101/api/users", this.user);
+                window.location.href="/users";//cal: navigates back to users page.
+            }catch(error){
+                console.log(error);
+            }
+        }
+    }
+}//end createOrUpdateUser
