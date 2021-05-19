@@ -56,8 +56,10 @@ namespace SecretSanta.Web.Controllers
         }
         */
 
-        public async Task<IActionResult> Edit(int id)
+        //public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
+            /*
             User user = await UserClient.GetAsync(id);
             return View(new UserViewModel
             {
@@ -65,8 +67,11 @@ namespace SecretSanta.Web.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName
             });
+            */
+            return View();
         }
 
+        /*
         [HttpPost]
         public async Task<IActionResult> Edit(UserViewModel viewModel)
         {
@@ -89,5 +94,6 @@ namespace SecretSanta.Web.Controllers
             await UserClient.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+        */
     }
 }

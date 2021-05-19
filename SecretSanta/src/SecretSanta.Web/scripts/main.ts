@@ -83,6 +83,28 @@ export function createOrUpdateUser(){
             }catch(error){
                 console.log(error);
             }
+        },
+
+        async update()
+        {
+            try {
+                await axios.put(`${apiHost}/api/users/${this.user.id}`, this.user);
+                window.location.href="/users" 
+            }catch(error){
+                console.log(error);
+            }
+        },
+
+        async loadData()
+        {
+            const pathnameSplit = window.location.pathname.split('/');//cal:this is for breaking up the url to get the id.
+            const id = pathnameSplit[pathnameSplit.length - 1];
+            try {
+                const response = await axios.get(`${apiHost}/api/users/${id}`);
+                this.user = response.data;
+            }catch(error){
+                console.log(error);
+            }
         }
     }
 }//end createOrUpdateUser

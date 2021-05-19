@@ -1,8 +1,18 @@
-@model UserViewModel
+<!-- [at]model UserViewModel -->
 
+@*
 <form asp-controller="Users" asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
     @await Html.PartialAsync("_CreateOrEdit")
     <button class="border-2 bg-green-400 border-green-800 hover:bg-green-600 py-2 px-4 rounded-xl mr-3">Update</button>
     <a class="inline-block border-2 bg-white border-green-400 hover:border-green-600 py-2 px-4 rounded-xl" asp-controller="Users" asp-action="Index">Cancel</a>
 </form>
+*@
+
+<!--cal: Unlike the create, we are using an x-init here since we want data loaded into the fields. -->
+<section x-data="SecretSanta.createOrUpdateUser()" x-init="loadData()">
+    @await Html.PartialAsync("_CreateOrEdit")
+    <button class="border-2 bg-green-400 border-green-800 hover:bg-green-600 py-2 px-4 rounded-xl mr-3" @@click="update()">Update</button>
+    <a class="inline-block border-2 bg-white border-green-400 hover:border-green-600 py-2 px-4 rounded-xl" asp-controller="Users" asp-action="Index">Cancel</a>
+    <!--cal: weve left this asp stuff inside the <a> tag since its fine for it to work on the server. It does not need js.-->
+</section>
