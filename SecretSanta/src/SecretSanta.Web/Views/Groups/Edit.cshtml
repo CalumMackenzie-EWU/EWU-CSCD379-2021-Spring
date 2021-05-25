@@ -1,4 +1,7 @@
 <section x-data="SecretSanta.createOrUpdateGroup()" x-init="loadData()">
+    <div>
+        <span class="text-red-500" x-test="assignError"></span>
+    </div>
     <div class="mb-6" x-show="isEditing">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -40,5 +43,9 @@
         </select>
         <button class="border-1 bg-green-200 border-green-600 hover:bg-green-400 py-2 px-4 rounded-xl mr-3" @@click="addToGroup(group.id)">Add</button>
     </div>
-    <a class="inline-block border-2 bg-white border-green-400 hover:border-green-600 py-2 px-4 rounded-xl" asp-controller="Groups" asp-action="Index">Close</a>
+    <div class ="inline-block">
+        <button class= "inline-block py-2 px-4 rounded-xl bg-purple-400 border-2 border-purple-900 text-white" @@click="assignUsers(group.id)">Assign People</button>
+        <a class="inline-block border-2 bg-white border-green-400 hover:border-green-600 py-2 px-4 rounded-xl" asp-controller="Groups" asp-action="Index">Close</a>
+    </div>
+    
 </section>
