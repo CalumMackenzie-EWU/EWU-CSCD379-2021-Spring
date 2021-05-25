@@ -1,6 +1,6 @@
 <section x-data="SecretSanta.createOrUpdateGroup()" x-init="loadData()">
     <div>
-        <span class="text-red-500" x-test="assignError"></span>
+        <span class="text-red-500" x-test="generationError"></span>
     </div>
     <div class="mb-6" x-show="isEditing">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -29,7 +29,7 @@
                     <div class="col-span-2">
                         <i class="fas fa-gift text-gray-700"></i>
                         <i class="fas fa-arrow-right text-gray-700"></i>
-                        <span x-text="getAssignment(user)"></span>
+                        <span x-text="giftsFor[user.id]"></span>
                     </div>
                 </div>
             </section>

@@ -120,6 +120,8 @@ export function createOrUpdateGroup() {
         selectedUserId: 0,
         isEditing: false,
         generationError: "",
+        giftsFor: [] as string[],
+        
 
         async create() {
             try {
@@ -153,6 +155,14 @@ export function createOrUpdateGroup() {
             try {
                 const client = new GroupsClient(apiHost);
                 this.group = await client.get(+id);
+
+                if(this.group.assignments.length > 0)
+                {
+                    this.group.users.forEach((_user) =>
+                    {
+                        this.getGiftsFor(_user);
+                    });
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -186,9 +196,42 @@ export function createOrUpdateGroup() {
                 var client = new GroupsClient(apiHost);
                 await client.add(currentGroupId, this.selectedUserId);
             } catch (error) {
+                this.generationError = error;
+                console.log(error);
+            }
+            await this.loadGroup();
+        },
+        getGiftsFor(user: User)
+        {
+            try{
+                if(this.group.assignments.length > 0)
+                {
+                    this.group.assignments.forEach((asmt) =>
+                    {
+                        if(asmt.giver?.firstName == user.firstName && asmt.giver?.lastName == user.lastName)
+                        {
+                            this.giftsFor[user.id] = asmt.receiver?.lastName +", " + asmt.receiver?.firstName;
+                        }
+                    });
+                }
+            }
+            catch(error)
+            {
+                console.log(error);
+            }
+        },
+        async assignUsers(currentGroupId:number)
+        {
+            try{
+                var client = new GroupsClient(apiHost);
+                await client.generateAssignments(currentGroupId);
+            }
+            catch(error)
+            {
                 console.log(error);
             }
             await this.loadGroup();
         }
+
     }
 }

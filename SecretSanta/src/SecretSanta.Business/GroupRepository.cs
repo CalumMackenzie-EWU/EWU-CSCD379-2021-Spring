@@ -56,23 +56,23 @@ namespace SecretSanta.Business
             }
 
             MockData.Groups[id].Assignments = new();
-            List<User> userList = MockData.Groups[id].Users;
+            List<User> users = MockData.Groups[id].Users;
 
-            if(userList.Count < 3)
+            if(users.Count < 3)
             {
                 return AssignmentResult.Error("A group must have atleast 3 users.");
             }
 
-            Shuffle(userList);
+            Shuffle(users);
 
-            for(int x = 0; x < userList.Count; x++)
+            for(int x = 0; x < users.Count; x++)
             {
-                if(x < userList.Count - 1)
+                if(x < users.Count - 1)
                 {
-                    MockData.Groups[id].Assignments.Add(new Assignment(userList[x], userList[x + 1]));
+                    MockData.Groups[id].Assignments.Add(new Assignment(users[x], users[x + 1]));
                 }
                 else{
-                    MockData.Groups[id].Assignments.Add(new Assignment(userList[x], userList[0]));
+                    MockData.Groups[id].Assignments.Add(new Assignment(users[x], users[0]));
                 }
             }
             return AssignmentResult.Success();
