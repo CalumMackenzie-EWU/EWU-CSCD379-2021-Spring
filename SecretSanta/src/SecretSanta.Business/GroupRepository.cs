@@ -45,5 +45,52 @@ namespace SecretSanta.Business
 
             MockData.Groups[item.Id] = item;
         }
+
+        //cal: below is stuff we are adding for asmt 8.
+        public AssignmentResult GenerateAssignments(int id)
+        {
+            if(!MockData.Groups.ContainsKey(id))
+            {
+                return AssignmentResult.Error("Group not found.");
+
+            }
+
+            MockData.Groups[id].Assignments = new();
+            List<User> userList = MockData.Groups[id].Users;
+
+            if(userList.Count < 3)
+            {
+                return AssignmentResult.Error("A group must have atleast 3 users.");
+            }
+
+            Shuffle(userList);
+
+            for(int x = 0; x < userList.Count; x++)
+            {
+                if(x < userList.Count - 1)
+                {
+                    MockData.Groups[id].Assignments.Add(new Assignment(userList[x], userList[x + 1]));
+                }
+                else{
+                    MockData.Groups[id].Assignments.Add(new Assignment(userList[x], userList[0]));
+                }
+            }
+            return AssignmentResult.Success();
+        }
+
+         //cal: list shuffle taken from stack overflow
+        private void Shuffle<T>(IList<T> list)
+        {
+            Random rand = new Random();
+            int count = list.Count;
+            while(count > 1)
+            {
+                count--;
+                int nextRand = rand.Next(count+1);
+                T value = list[nextRand];
+                list[nextRand] = list[count];
+                list[count] = value;
+            }
+        }
     }
 }
