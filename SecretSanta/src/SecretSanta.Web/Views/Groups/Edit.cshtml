@@ -1,7 +1,5 @@
 <section x-data="SecretSanta.createOrUpdateGroup()" x-init="loadData()">
-    <div>
-        <span class="text-red-500" x-test="generationError"></span>
-    </div>
+    
     <div class="mb-6" x-show="isEditing">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -19,6 +17,9 @@
                 <button class="border-1 bg-green-200 border-green-600 hover:bg-green-400 py-2 px-4 rounded-xl mr-3" @@click="edit()">Edit</button>
             </div>
         </div>
+    </div>
+    <div>
+        <span class="text-red-500" x-text="generationError"></span>
     </div>
     <template x-for="user in group.users" :key="user" x-if="group?.users != null">
         <div class="w-full sm:w-2/3">

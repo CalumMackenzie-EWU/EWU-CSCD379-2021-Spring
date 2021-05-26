@@ -60,7 +60,7 @@ namespace SecretSanta.Business
 
             if(users.Count < 3)
             {
-                return AssignmentResult.Error("A group must have atleast 3 users.");
+                return AssignmentResult.Error("A group must have at least 3 users.");
             }
 
             Shuffle(users);

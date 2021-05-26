@@ -228,6 +228,7 @@ export function createOrUpdateGroup() {
             }
             catch(error)
             {
+                this.generationError = error;
                 console.log(error);
             }
             await this.loadGroup();
