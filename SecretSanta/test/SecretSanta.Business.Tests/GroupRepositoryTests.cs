@@ -117,9 +117,9 @@ namespace SecretSanta.Business.Tests
         {
             GroupRepository sut = new();
 
-            AssignmentResult result = sut.GenerateAssignments(42);
+            AssignmentResult result = sut.GenerateAssignments(54);//cal: this had to be changed from 42 since if running all tests, a user with id 42 will be created above.
 
-            Assert.AreEqual("Group not found", result.ErrorMessage);
+            Assert.AreEqual("Group not found.", result.ErrorMessage);
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace SecretSanta.Business.Tests
 
             AssignmentResult result = sut.GenerateAssignments(42);
 
-            Assert.AreEqual($"Group Group must have at least three users", result.ErrorMessage);
+            Assert.AreEqual($"A group must have at least 3 users.", result.ErrorMessage);
         }
 
         [TestMethod]
