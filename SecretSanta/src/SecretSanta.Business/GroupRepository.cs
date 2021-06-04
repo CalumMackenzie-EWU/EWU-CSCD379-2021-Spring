@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SecretSanta.Data;
+using System.Linq;
 
 namespace SecretSanta.Business
 {
@@ -75,7 +76,13 @@ namespace SecretSanta.Business
             for(int i = 0; i < users.Count; i++)
             {
                 int endIndex = (i + 1) % users.Count;
-                group.Assignments.Add(new Assignment(users[i], users[endIndex]));
+                //group.Assignments.Add(new Assignment(users[i], users[endIndex]));
+                
+                //cal:added to try and get my basic db set up.
+                group.Assignments.Add(new Assignment());
+                group.Assignments[group.Assignments.Count].Giver = users[i];
+                group.Assignments[group.Assignments.Count].Receiver = users[endIndex];
+                group.Assignments[group.Assignments.Count].Id = group.Assignments.Max(g => g.Id) + 1;
             }
             return AssignmentResult.Success();
         }
