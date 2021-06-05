@@ -9,7 +9,7 @@ namespace SecretSanta.Data
 
         
 
-        public DbContext(): base(new DbContextOptionsBuilder<DbContext>().UseSqlite("Data Source=main.db").Options)
+        public DbContext(): base(new DbContextOptionsBuilder<DbContext>().UseSqlite(@"Data Source=..\..\src\SecretSanta.Data\main.db").Options)
         { 
 
         }
