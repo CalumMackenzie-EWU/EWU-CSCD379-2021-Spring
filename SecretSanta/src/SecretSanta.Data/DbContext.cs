@@ -19,12 +19,19 @@ namespace SecretSanta.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             if (modelBuilder is null)
             {
                 throw new ArgumentNullException(nameof(modelBuilder));
             }
 
-            modelBuilder.Entity<Gift>().HasAlternateKey(item=>new {item.Title,item.Url}).HasName($"{nameof(Gift)}.AlternateKey");
+            /*
+            modelBuilder.Entity<Gift>()
+            .HasAlternateKey(item=>new {item.Title,item.Url})
+            .HasName("AlternateKey_Title&Url");
+            */
+            modelBuilder.Entity<Gift>().HasIndex(item => new {item.Title, item.Url}).IsUnique();
+            
         }
 
     }

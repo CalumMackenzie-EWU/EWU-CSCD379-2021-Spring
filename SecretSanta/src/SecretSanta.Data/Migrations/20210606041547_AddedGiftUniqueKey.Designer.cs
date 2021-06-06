@@ -9,8 +9,8 @@ using SecretSanta.Data;
 namespace SecretSanta.Data.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20210606005649_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210606041547_AddedGiftUniqueKey")]
+    partial class AddedGiftUniqueKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,10 +84,10 @@ namespace SecretSanta.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Title", "Url")
-                        .HasName("Gift.AlternateKey");
-
                     b.HasIndex("GiftForId");
+
+                    b.HasIndex("Title", "Url")
+                        .IsUnique();
 
                     b.ToTable("Gifts");
                 });

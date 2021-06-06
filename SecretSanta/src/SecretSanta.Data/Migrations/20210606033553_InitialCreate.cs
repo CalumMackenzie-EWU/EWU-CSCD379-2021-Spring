@@ -81,7 +81,6 @@ namespace SecretSanta.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Gifts", x => x.Id);
-                    table.UniqueConstraint("Gift.AlternateKey", x => new { x.Title, x.Url });
                     table.ForeignKey(
                         name: "FK_Gifts_Users_GiftForId",
                         column: x => x.GiftForId,
