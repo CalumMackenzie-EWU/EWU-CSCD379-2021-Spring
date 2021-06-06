@@ -77,9 +77,13 @@ namespace SecretSanta.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Title", "Url")
+                        .HasName("Gift.AlternateKey");
 
                     b.HasIndex("GiftForId");
 

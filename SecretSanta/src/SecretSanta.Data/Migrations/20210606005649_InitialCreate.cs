@@ -73,7 +73,7 @@ namespace SecretSanta.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
                     Desc = table.Column<string>(type: "TEXT", nullable: true),
                     Priority = table.Column<int>(type: "INTEGER", nullable: false),
                     GiftForId = table.Column<int>(type: "INTEGER", nullable: true)
@@ -81,6 +81,7 @@ namespace SecretSanta.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Gifts", x => x.Id);
+                    table.UniqueConstraint("Gift.AlternateKey", x => new { x.Title, x.Url });
                     table.ForeignKey(
                         name: "FK_Gifts_Users_GiftForId",
                         column: x => x.GiftForId,
