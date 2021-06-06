@@ -11,6 +11,8 @@ namespace SecretSanta.Data.Tests
     [TestClass]
     public class DbContextTests
     {
+
+        /*//cal: This is the simple version of the Add gift. It works but doesent cleanup before and after. We're leaving this here for reference if I need it later.
         [TestMethod]
         public void Add_NewGift_Success()
         {
@@ -18,13 +20,61 @@ namespace SecretSanta.Data.Tests
             Directory.SetCurrentDirectory(workFrom);
             DbContext dbContext = new DbContext();
             int beforeCount = dbContext.Gifts.Count();
-            //dbContext.Gifts.Add(new Gift(){Id=42, Title="Colgate"});
-            dbContext.Gifts.Add(new Gift(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+            
+            //dbContext.Gifts.Add(new Gift(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+            
+            Gift @gift = new Gift(){Title = "Colgate" +Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"};
+            int id = @gift.Id;
+            dbContext.Gifts.Add(@gift);
             dbContext.SaveChanges();
 
             Assert.AreEqual<int>(beforeCount+1, dbContext.Gifts.Count());
+
+            //cal: below were cleaning up the gift we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
+            dbContext.Gifts.Remove(@gift);
+            dbContext.SaveChanges();
+        }
+        */
+        [TestMethod]
+        public void Add_NewGift_Success()
+        {
+            Gift @gift;
+
+            string workFrom = @"..\..\..\..\..\src\SecretSanta.Data\";//cal: we're using this so that it work with the database in SecretSanta.Data
+            Directory.SetCurrentDirectory(workFrom);
+            DbContext dbContext = new DbContext();
+            string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewGift_Success)}";
+            void RemoveExistingTestGifts()
+            {
+                IQueryable<Gift>? giftsToDelete = dbContext.Gifts.Where(item=> item.Title.StartsWith(titlePrefix));
+                dbContext.Gifts.RemoveRange(giftsToDelete);
+                dbContext.SaveChanges();
+            }
+
+            try
+            {
+                int beforeCount = dbContext.Gifts.Count();
+                //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
+                RemoveExistingTestGifts();
+                
+                //dbContext.Gifts.Add(new Gift(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+                
+                @gift = new Gift(){Title = $"{titlePrefix}" +Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"};
+                int id = @gift.Id;
+                dbContext.Gifts.Add(@gift);
+                dbContext.SaveChanges();
+
+                Assert.AreEqual<int>(beforeCount+1, dbContext.Gifts.Count());
+            }
+            finally
+            {
+                //cal: below were cleaning up the gift we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
+                RemoveExistingTestGifts();
+            }
+            
         }
 
+        /*//cal:This was an async version of the simple test. It has possible problems if tests were run concurrently so we stuck with simple.
         [TestMethod]
         async public Task Add_NewGiftAsync_Success()//cal:changed to this since were using SaveChangesAsync() over SaveChanges()
         {
@@ -49,5 +99,7 @@ namespace SecretSanta.Data.Tests
                 Assert.AreEqual<int>(beforeCount+1, dbContext.Gifts.Count());
             }
         }
+        */
+
     }
 }
