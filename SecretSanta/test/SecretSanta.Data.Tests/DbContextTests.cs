@@ -11,6 +11,12 @@ namespace SecretSanta.Data.Tests
     [TestClass]
     public class DbContextTests
     {
+        [ClassInitialize]
+        public static void SetWorkingDirectory(TestContext context)
+        {
+            string workFrom = @"..\..\..\..\..\src\SecretSanta.Data\";//cal: we're using this so that it work with the database in SecretSanta.Data
+            Directory.SetCurrentDirectory(workFrom);
+        }
 
         /*//cal: This is the simple version of the Add gift. It works but doesent cleanup before and after. We're leaving this here for reference if I need it later.
         [TestMethod]
@@ -68,36 +74,36 @@ namespace SecretSanta.Data.Tests
         {
             Gift @gift;
 
-            string workFrom = @"..\..\..\..\..\src\SecretSanta.Data\";//cal: we're using this so that it work with the database in SecretSanta.Data
-            Directory.SetCurrentDirectory(workFrom);
-            DbContext dbContext = new DbContext();
-            string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewGift_Success)}";
-            void RemoveExistingTestGifts()
+            using(DbContext dbContext = new DbContext())
             {
-                IQueryable<Gift>? giftsToDelete = dbContext.Gifts.Where(item=> item.Title.StartsWith(titlePrefix));
-                dbContext.Gifts.RemoveRange(giftsToDelete);
-                dbContext.SaveChanges();
-            }
+                string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewGift_Success)}";
+                void RemoveExistingTestGifts()
+                {
+                    IQueryable<Gift>? giftsToDelete = dbContext.Gifts.Where(item=> item.Title.StartsWith(titlePrefix));
+                    dbContext.Gifts.RemoveRange(giftsToDelete);
+                    dbContext.SaveChanges();
+                }
 
-            try
-            {
-                int beforeCount = dbContext.Gifts.Count();
-                //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
-                RemoveExistingTestGifts();
-                
-                //dbContext.Gifts.Add(new Gift(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
-                
-                @gift = new Gift(){Title = $"{titlePrefix}" +Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"};
-                int id = @gift.Id;
-                dbContext.Gifts.Add(@gift);
-                dbContext.SaveChanges();
+                try
+                {
+                    int beforeCount = dbContext.Gifts.Count();
+                    //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
+                    RemoveExistingTestGifts();
+                    
+                    //dbContext.Gifts.Add(new Gift(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+                    
+                    @gift = new Gift(){Title = $"{titlePrefix}" +Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"};
+                    int id = @gift.Id;
+                    dbContext.Gifts.Add(@gift);
+                    dbContext.SaveChanges();
 
-                Assert.AreEqual<int>(beforeCount+1, dbContext.Gifts.Count());
-            }
-            finally
-            {
-                //cal: below were cleaning up the gift we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
-                RemoveExistingTestGifts();
+                    Assert.AreEqual<int>(beforeCount+1, dbContext.Gifts.Count());
+                }
+                finally
+                {
+                    //cal: below were cleaning up the gift we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
+                    RemoveExistingTestGifts();
+                }
             }
             
         }//end addGiftSs
@@ -108,36 +114,36 @@ namespace SecretSanta.Data.Tests
         {
             User @user;
 
-            string workFrom = @"..\..\..\..\..\src\SecretSanta.Data\";//cal: we're using this so that it work with the database in SecretSanta.Data
-            Directory.SetCurrentDirectory(workFrom);
-            DbContext dbContext = new DbContext();
-            string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewUser_Success)}";
-            void RemoveExistingTestUsers()
+            using(DbContext dbContext = new DbContext())
             {
-                IQueryable<User>? usersToDelete = dbContext.Users.Where(item=> item.FirstName.StartsWith(titlePrefix));
-                dbContext.Users.RemoveRange(usersToDelete);
-                dbContext.SaveChanges();
-            }
+                string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewUser_Success)}";
+                void RemoveExistingTestUsers()
+                {
+                    IQueryable<User>? usersToDelete = dbContext.Users.Where(item=> item.FirstName.StartsWith(titlePrefix));
+                    dbContext.Users.RemoveRange(usersToDelete);
+                    dbContext.SaveChanges();
+                }
 
-            try
-            {
-                int beforeCount = dbContext.Users.Count();
-                //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
-                RemoveExistingTestUsers();
-                
-                //dbContext.Users.Add(new User(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
-                
-                @user = new User(){FirstName = $"{titlePrefix}" +Guid.NewGuid().ToString(), LastName= "Ross" + Guid.NewGuid().ToString()};
-                int id = @user.Id;
-                dbContext.Users.Add(@user);
-                dbContext.SaveChanges();
+                try
+                {
+                    int beforeCount = dbContext.Users.Count();
+                    //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
+                    RemoveExistingTestUsers();
+                    
+                    //dbContext.Users.Add(new User(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+                    
+                    @user = new User(){FirstName = $"{titlePrefix}" +Guid.NewGuid().ToString(), LastName= "Ross" + Guid.NewGuid().ToString(), Email = "testAddress@bmail.com"};
+                    int id = @user.Id;
+                    dbContext.Users.Add(@user);
+                    dbContext.SaveChanges();
 
-                Assert.AreEqual<int>(beforeCount+1, dbContext.Users.Count());
-            }
-            finally
-            {
-                //cal: below were cleaning up the User we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
-                RemoveExistingTestUsers();
+                    Assert.AreEqual<int>(beforeCount+1, dbContext.Users.Count());
+                }
+                finally
+                {
+                    //cal: below were cleaning up the User we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
+                    RemoveExistingTestUsers();
+                }
             }
             
         }//end addUserSs
@@ -147,39 +153,84 @@ namespace SecretSanta.Data.Tests
         {
             Group @group;
 
-            string workFrom = @"..\..\..\..\..\src\SecretSanta.Data\";//cal: we're using this so that it work with the database in SecretSanta.Data
-            Directory.SetCurrentDirectory(workFrom);
-            DbContext dbContext = new DbContext();
-            string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewGroup_Success)}";
-            void RemoveExistingTestGroups()
+            using(DbContext dbContext = new DbContext())
             {
-                IQueryable<Group>? groupsToDelete = dbContext.Groups.Where(item=> item.Name.StartsWith(titlePrefix));
-                dbContext.Groups.RemoveRange(groupsToDelete);
-                dbContext.SaveChanges();
-            }
+                string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewGroup_Success)}";
+                void RemoveExistingTestGroups()
+                {
+                    IQueryable<Group>? groupsToDelete = dbContext.Groups.Where(item=> item.Name.StartsWith(titlePrefix));
+                    dbContext.Groups.RemoveRange(groupsToDelete);
+                    dbContext.SaveChanges();
+                }
 
-            try
-            {
-                int beforeCount = dbContext.Groups.Count();
-                //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
-                RemoveExistingTestGroups();
-                
-                //dbContext.Groups.Add(new Group(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
-                
-                @group = new Group(){Name = $"{titlePrefix}" +Guid.NewGuid().ToString()};
-                int id = @group.Id;
-                dbContext.Groups.Add(@group);
-                dbContext.SaveChanges();
+                try
+                {
+                    int beforeCount = dbContext.Groups.Count();
+                    //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
+                    RemoveExistingTestGroups();
+                    
+                    //dbContext.Groups.Add(new Group(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+                    
+                    @group = new Group(){Name = $"{titlePrefix}" +Guid.NewGuid().ToString()};
+                    int id = @group.Id;
+                    dbContext.Groups.Add(@group);
+                    dbContext.SaveChanges();
 
-                Assert.AreEqual<int>(beforeCount+1, dbContext.Groups.Count());
-            }
-            finally
-            {
-                //cal: below were cleaning up the Group we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
-                RemoveExistingTestGroups();
+                    Assert.AreEqual<int>(beforeCount+1, dbContext.Groups.Count());
+                }
+                finally
+                {
+                    //cal: below were cleaning up the Group we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
+                    RemoveExistingTestGroups();
+                }
             }
             
-        }
+        }//end AddGroupSs
+
+        [TestMethod]
+        public void Add_NewAssignment_Success()
+        {
+            Assignment @assignment;
+
+            using(DbContext dbContext = new DbContext())
+                {
+                string titlePrefix = $"{nameof(DbContextTests)}.{nameof(Add_NewAssignment_Success)}";
+                void RemoveExistingTestAssignments()
+                {
+                    IQueryable<Assignment>? assignmentsToDelete = dbContext.Assignments.Where(item=> item.Giver.FirstName.StartsWith(titlePrefix));
+                    dbContext.Assignments.RemoveRange(assignmentsToDelete);
+                    dbContext.SaveChanges();
+                }
+
+                try
+                {
+                    int beforeCount = dbContext.Assignments.Count();
+                    //cal: were also cleaning up here incase something goes wrong during runtime and didnt clean up previously.
+                    RemoveExistingTestAssignments();
+                    
+                    //dbContext.Assignments.Add(new Assignment(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
+                    
+                    //@assignment = new Assignment(){Name = $"{titlePrefix}" +Guid.NewGuid().ToString()};
+                    @assignment = new Assignment();
+                    @assignment.Giver.FirstName = $"{titlePrefix}" +Guid.NewGuid().ToString();
+                    @assignment.Giver.LastName = "Bizarro";
+                    @assignment.Receiver.FirstName = "Vandal";
+                    @assignment.Receiver.LastName = "Savage";
+                    
+                    int id = @assignment.Id;
+                    dbContext.Assignments.Add(@assignment);
+                    dbContext.SaveChanges();
+
+                    Assert.AreEqual<int>(beforeCount+1, dbContext.Assignments.Count());
+                }
+                finally
+                {
+                    //cal: below were cleaning up the Assignment we just added. This works for a simple solution. But Mark showed us a more robust way with the try catches.
+                    RemoveExistingTestAssignments();
+                }
+            }
+            
+        }//end AddAssignmentSs
 
     }//end Test class
 }

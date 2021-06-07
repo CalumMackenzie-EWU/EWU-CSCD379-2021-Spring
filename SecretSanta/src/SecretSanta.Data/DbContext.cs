@@ -30,9 +30,10 @@ namespace SecretSanta.Data
             .HasAlternateKey(item=>new {item.Title,item.Url})
             .HasName("AlternateKey_Title&Url");
             */
+            
             modelBuilder.Entity<Gift>().HasIndex(item => new {item.Title, item.Url}).IsUnique();
             modelBuilder.Entity<Group>().HasIndex(item => new {item.Name}).IsUnique();
-            modelBuilder.Entity<User>().HasIndex(item => new {item.FirstName, item.LastName}).IsUnique();
+            //modelBuilder.Entity<User>().HasIndex(item => new {item.Email}).IsUnique();
             modelBuilder.Entity<Assignment>().HasIndex(item => new {item.GiftDue}).IsUnique();
             
         }
