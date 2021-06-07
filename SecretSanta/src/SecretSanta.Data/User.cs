@@ -10,8 +10,8 @@ namespace SecretSanta.Data
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         //public DateTime joined{get;set;} = System.DateTime.Now;
-        [EmailAddress]
-        public string Email{get;set;} = "redshirt@yahoo.com";
+        //[EmailAddress]
+        public string Email{get;set;} = "";
 
         public List<Group> Groups { get; } = new();
     }
