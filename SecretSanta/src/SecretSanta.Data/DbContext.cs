@@ -31,11 +31,30 @@ namespace SecretSanta.Data
             .HasName("AlternateKey_Title&Url");
             */
             
-            
+            #region Setup Unique Keys
             modelBuilder.Entity<Gift>().HasIndex(item => new {item.Title, item.Url}).IsUnique();
             modelBuilder.Entity<Group>().HasIndex(item => new {item.Name}).IsUnique();
             modelBuilder.Entity<User>().HasIndex(item => new {item.Email}).IsUnique();
             modelBuilder.Entity<Assignment>().HasIndex(item => new {item.GiftDue}).IsUnique();
+            #endregion
+
+            #region SeedData
+            foreach(Group seedGroup in SeedData.Groups)
+            {
+                modelBuilder.Entity<Group>().HasData(seedGroup);
+            }
+
+            foreach(Gift seedGift in SeedData.Gifts)
+            {
+                modelBuilder.Entity<Gift>().HasData(seedGift);
+            }
+
+            foreach(User seedUser in SeedData.Users)
+            {
+                modelBuilder.Entity<User>().HasData(seedUser);
+            }
+            #endregion
+            
             
         }
 
