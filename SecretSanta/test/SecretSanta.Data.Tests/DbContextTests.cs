@@ -80,7 +80,9 @@ namespace SecretSanta.Data.Tests
                 void RemoveExistingTestGifts()
                 {
                     IQueryable<Gift>? giftsToDelete = dbContext.Gifts.Where(item=> item.Title.StartsWith(titlePrefix));
+                    IQueryable<User>? usersToDelete = dbContext.Users.Where(item=> item.FirstName.StartsWith(titlePrefix));
                     dbContext.Gifts.RemoveRange(giftsToDelete);
+                    dbContext.Users.RemoveRange(usersToDelete);
                     dbContext.SaveChanges();
                 }
 
@@ -93,6 +95,9 @@ namespace SecretSanta.Data.Tests
                     //dbContext.Gifts.Add(new Gift(){Title="Colgate " + Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"});
                     
                     @gift = new Gift(){Title = $"{titlePrefix}" +Guid.NewGuid().ToString(), Url="www." + Guid.NewGuid().ToString() + ".com"};
+                    @gift.GiftFor.FirstName = $"{titlePrefix}" +Guid.NewGuid().ToString();
+                    @gift.GiftFor.LastName = $"LastName" +Guid.NewGuid().ToString();
+                    @gift.GiftFor.Email = "testing@AddGift.com";
                     int id = @gift.Id;
                     dbContext.Gifts.Add(@gift);
                     dbContext.SaveChanges();
@@ -198,7 +203,9 @@ namespace SecretSanta.Data.Tests
                 void RemoveExistingTestAssignments()
                 {
                     IQueryable<Assignment>? assignmentsToDelete = dbContext.Assignments.Where(item=> item.Giver.FirstName.StartsWith(titlePrefix));
+                    IQueryable<User>? usersToDelete = dbContext.Users.Where(item=> item.FirstName.StartsWith(titlePrefix));
                     dbContext.Assignments.RemoveRange(assignmentsToDelete);
+                    dbContext.Users.RemoveRange(usersToDelete);
                     dbContext.SaveChanges();
                 }
 
@@ -214,8 +221,10 @@ namespace SecretSanta.Data.Tests
                     @assignment = new Assignment();
                     @assignment.Giver.FirstName = $"{titlePrefix}" +Guid.NewGuid().ToString();
                     @assignment.Giver.LastName = "Bizarro";
-                    @assignment.Receiver.FirstName = "Vandal";
+                    @assignment.Giver.Email = "testing@AddAssignment.com";
+                    @assignment.Receiver.FirstName = $"{titlePrefix}" +Guid.NewGuid().ToString();
                     @assignment.Receiver.LastName = "Savage";
+                    @assignment.Receiver.Email = "Vandal@Savage.com";
                     
                     int id = @assignment.Id;
                     dbContext.Assignments.Add(@assignment);
