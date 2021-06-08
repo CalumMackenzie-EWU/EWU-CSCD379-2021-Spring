@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SecretSanta.Data
 {
@@ -9,6 +10,8 @@ namespace SecretSanta.Data
 
         public int Id{get;set;}
         public DateTime GiftDue{get;set;}
+
+        public List<Group> Groups { get; set; }
 
         public Assignment(User giver, User recipient)
         {

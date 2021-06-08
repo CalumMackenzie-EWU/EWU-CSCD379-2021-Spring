@@ -90,6 +90,9 @@ namespace SecretSanta.Data.Migrations
 
                     b.HasIndex("GiftForId");
 
+                    b.HasIndex("Title", "Url")
+                        .IsUnique();
+
                     b.ToTable("Gifts");
                 });
 
@@ -104,6 +107,9 @@ namespace SecretSanta.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Groups");
                 });
@@ -127,6 +133,9 @@ namespace SecretSanta.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

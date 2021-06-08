@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.IO;//cal: both this and Reflection were used to debug our current directory at runtime.
 using System.Reflection;
+using System.Collections.Generic;
 //using DbContext = SecretSanta.Data.DbContext;
 
 namespace SecretSanta.Data.Tests
@@ -240,6 +241,72 @@ namespace SecretSanta.Data.Tests
             }
             
         }//end AddAssignmentSs
+
+        [TestMethod]
+        public void SeedTest()
+        {
+            DbContext dbContext = new DbContext();
+            var users = new[]
+            {
+                new User
+                {
+                    Id = 1,
+                    FirstName = "Inigo",
+                    LastName = "Montoya",
+                    Email = "yahoo@yahoo.com"
+                },
+                new User
+                {
+                    Id = 2,
+                    FirstName = "Princess",
+                    LastName = "Buttercup",
+                    Email = "yah@yahoo.com"
+                },
+                new User
+                {
+                    Id = 3,
+                    FirstName = "Prince",
+                    LastName = "Humperdink",
+                    Email = "y@yahoo.com"
+                },
+                new User
+                {
+                    Id = 4,
+                    FirstName = "Count",
+                    LastName = "Rugen",
+                    Email = "mango@yahoo.com"
+                },
+                new User
+                {
+                    Id = 5,
+                    FirstName = "Miracle",
+                    LastName = "Max",
+                    Email = "man@yahoo.com"
+                }
+            };
+
+            var groups = new[]
+            {
+                new Group
+                {
+                    Id = 1,
+                    Name = "IntelliTect Christmas Party",
+                    Users = new List<User> { users[0], users[1], users[2], users[3], users[4] }
+                },
+                new Group
+                {
+                    Id = 2,
+                    Name = "Friends",
+                    Users = new List<User> { users[0], users[1], users[2], users[3], users[4] }
+                }
+            };
+
+            dbContext.AddRange(users);
+            dbContext.AddRange(groups);
+
+            dbContext.SaveChanges();
+        
+        }
 
     }//end Test class
 }

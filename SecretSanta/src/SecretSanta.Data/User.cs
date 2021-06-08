@@ -13,6 +13,7 @@ namespace SecretSanta.Data
         //[EmailAddress]
         public string Email{get;set;} = "";
 
-        public List<Group> Groups { get; } = new();
+        //public List<Group> Groups { get; } = new();
+        public List<Group> Groups { get; set;}
     }
 }

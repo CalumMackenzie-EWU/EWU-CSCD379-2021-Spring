@@ -38,10 +38,22 @@ namespace SecretSanta.Data
             modelBuilder.Entity<Assignment>().HasIndex(item => new {item.GiftDue}).IsUnique();
             #endregion
 
+            /*
+            int x = 0;
             #region SeedData
             foreach(Group seedGroup in SeedData.Groups)
             {
-                modelBuilder.Entity<Group>().HasData(seedGroup);
+                
+                //modelBuilder.Entity<Group>().HasData(seedGroup);
+                modelBuilder.Entity<Group>(item => 
+                {
+                    item.HasData(seedGroup);
+                    Console.WriteLine(seedGroup.Users[x].FirstName);
+                    item.OwnsOne(g => g.Users).HasData(seedGroup.Users[x]);
+                    
+                    
+                });
+                x++;
             }
 
             foreach(Gift seedGift in SeedData.Gifts)
@@ -54,7 +66,7 @@ namespace SecretSanta.Data
                 modelBuilder.Entity<User>().HasData(seedUser);
             }
             #endregion
-            
+            */
             
         }
 
