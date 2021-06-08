@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SecretSanta.Data
 {
+    //cal: Commenting out my GroupUser etc stuff atm. It isnt necessary to insert data into the db. But may come back to it
+    //if I run into problems later down the line. As it is, it causes more headaches than help.
     public class Group
     {
         public int Id { get; set; }
