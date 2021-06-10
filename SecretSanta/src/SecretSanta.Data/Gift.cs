@@ -8,6 +8,6 @@ namespace SecretSanta.Data
         public string? Desc { get; set;}
         public int Priority { get; set;} = 0;
         public User GiftFor { get; set;} = new User();
-        public int UserId {get;set;} = 0;
+        //public int UserId {get;set;} = 0;
     }
 }

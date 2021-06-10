@@ -2,6 +2,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SecretSanta.Web.Data;
 using SecretSanta.Web.ViewModels;
+//using SecretSanta.Data;
+
 
 namespace SecretSanta.Web.Controllers
 {
@@ -10,6 +12,8 @@ namespace SecretSanta.Web.Controllers
         public IActionResult Index()
         {
             var gifts = MockData.Gifts.OrderBy(g => g.Priority).ToList();
+            //DbContext dbContext = new DbContext();
+            //var gifts = dbContext.Gifts.OrderBy(g => g.Priority).ToList();
             return View(gifts);
         }
 
