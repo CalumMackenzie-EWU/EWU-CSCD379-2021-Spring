@@ -27,7 +27,7 @@ namespace SecretSanta.Business
 
         public User? GetItem(int id)
         {
-            if (MockData.Users.TryGetValue(id, out User? user))
+            //if (MockData.Users.TryGetValue(id, out User? user))
             // {
             //     return user;
             // }
