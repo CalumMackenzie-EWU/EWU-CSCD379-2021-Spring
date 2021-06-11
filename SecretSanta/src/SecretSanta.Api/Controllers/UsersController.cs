@@ -26,7 +26,21 @@ namespace SecretSanta.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<Dto.User?> Get(int id)
         {
-            Dto.User? user = Dto.User.ToDto(Repository.GetItem(id));
+            //Dto.User? user = Dto.User.ToDto(Repository.GetItem(id));
+            //cal:add during display.
+            List<Dto.User>? userAssignments = new();
+            foreach(SecretSanta.Data.User fullUser in 
+                (Repository.GetAssignmentUsers(id)))
+            {
+                userAssignments.Add(Dto.User.ToDto(fullUser));
+            }
+            //List<Dto.Gift>? gifts = new();
+            //foreach(SecretSanta.Data.Gift gift in Repository.GetGifts(id))
+            //{
+            //    gifts.Add(Dto.Gift.ToDto(gift));
+            //}
+            //Dto.User? user = Dto.User.ToDto(Repository.GetItem(id), userAssignments, gifts);
+            Dto.User? user = Dto.User.ToDto(Repository.GetItem(id), userAssignments);
             if (user is null) return NotFound();
             return user;
         }

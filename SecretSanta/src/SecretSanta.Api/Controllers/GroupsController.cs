@@ -31,6 +31,18 @@ namespace SecretSanta.Api.Controllers
         {
             Dto.Group? group = Dto.Group.ToDto(GroupRepository.GetItem(id), true);
             if (group is null) return NotFound();
+            //cal:added during display
+            foreach(Dto.User user in 
+                (GroupRepository.GetUsers(id)).Select(item => Dto.User.ToDto(item)!))
+            {
+                group.Users.Add(user);
+            }
+            foreach(Dto.Assignment assignment in 
+                GroupRepository.GetAssignments(id).Select(item => Dto.Assignment.ToDto(item)!))
+            {
+                group.Assignments.Add(assignment);
+            }
+            //
             return group;
         }
 
@@ -78,14 +90,16 @@ namespace SecretSanta.Api.Controllers
         public ActionResult Remove(int id, [FromBody] int userId)
         {
             Data.Group? foundGroup = GroupRepository.GetItem(id);
-            if (foundGroup is not null)
+            //if (foundGroup is not null)
+            if(GroupRepository.RemoveUser(id, userId))
             {
-                if (foundGroup.Users.FirstOrDefault(x => x.Id == userId) is { } user)
-                {
-                    foundGroup.Users.Remove(user);
-                    GroupRepository.Save(foundGroup);
-                }
                 return Ok();
+                // if (foundGroup.Users.FirstOrDefault(x => x.Id == userId) is { } user)
+                // {
+                //     foundGroup.Users.Remove(user);
+                //     GroupRepository.Save(foundGroup);
+                // }
+                // return Ok();
             }
             return NotFound();
         }
@@ -96,17 +110,22 @@ namespace SecretSanta.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public ActionResult Add(int id, [FromBody] int userId)
         {
-            Data.Group? foundGroup = GroupRepository.GetItem(id);
-            Data.User? foundUser = UserRepository.GetItem(userId);
-            if (foundGroup is not null && foundUser is not null)
+            // Data.Group? foundGroup = GroupRepository.GetItem(id);
+            // Data.User? foundUser = UserRepository.GetItem(userId);
+            // if (foundGroup is not null && foundUser is not null)
+            // {
+            //     if (!foundGroup.Users.Any(x => x.Id == foundUser.Id))
+            //     {
+            //         foundGroup.Users.Add(foundUser);
+            //         GroupRepository.Save(foundGroup);
+            //     }
+            //     return Ok();
+            // }
+            if(GroupRepository.AddUser(id, userId))
             {
-                if (!foundGroup.Users.Any(x => x.Id == foundUser.Id))
-                {
-                    foundGroup.Users.Add(foundUser);
-                    GroupRepository.Save(foundGroup);
-                }
                 return Ok();
             }
+            //
             return NotFound();
         }
 
