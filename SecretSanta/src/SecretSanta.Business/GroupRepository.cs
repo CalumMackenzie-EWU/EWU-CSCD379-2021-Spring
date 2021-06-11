@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SecretSanta.Data;
 using System.Linq;
+using System.IO;
 
 namespace SecretSanta.Business
 {
@@ -10,7 +11,11 @@ namespace SecretSanta.Business
         private DbContext DbContext;
         private void GetContext()
         {
+            string workFrom = @"..\SecretSanta.Data\";
+            string previousPath = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(workFrom);
             DbContext = new SecretSanta.Data.DbContext();
+            Directory.SetCurrentDirectory(previousPath);
         }
         public Group Create(Group item)
         {
@@ -40,6 +45,7 @@ namespace SecretSanta.Business
         public ICollection<Group> List()
         {
             //return MockData.Groups.Values;
+            GetContext();
             return DbContext.Groups.ToList();
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SecretSanta.Data;
 using System.Linq;
+using System.IO;
 
 namespace SecretSanta.Business
 {
@@ -9,7 +10,11 @@ namespace SecretSanta.Business
         private DbContext DbContext;
         private void GetContext()
         {
+            string workFrom = @"..\SecretSanta.Data\";
+            string previousPath = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(workFrom);
             DbContext = new SecretSanta.Data.DbContext();
+            Directory.SetCurrentDirectory(previousPath);
         }
         public User Create(User item)
         {
@@ -39,6 +44,7 @@ namespace SecretSanta.Business
         public ICollection<User> List()
         {
             //return MockData.Users.Values;
+            GetContext();
             return DbContext.Users.ToList();
         }
 

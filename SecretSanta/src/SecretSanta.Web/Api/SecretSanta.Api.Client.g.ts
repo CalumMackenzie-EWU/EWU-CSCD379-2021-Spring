@@ -848,6 +848,7 @@ export class User implements IUser {
     id!: number;
     firstName?: string | undefined;
     lastName?: string | undefined;
+    assignmentList!: User[];
 
     constructor(data?: IUser) {
         if (data) {
@@ -856,6 +857,9 @@ export class User implements IUser {
                     (<any>this)[property] = (<any>data)[property];
             }
         }
+        if (!data) {
+            this.assignmentList = [];
+        }
     }
 
     init(_data?: any) {
@@ -863,6 +867,11 @@ export class User implements IUser {
             this.id = _data["id"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            if (Array.isArray(_data["assignmentList"])) {
+                this.assignmentList = [] as any;
+                for (let item of _data["assignmentList"])
+                    this.assignmentList!.push(User.fromJS(item));
+            }
         }
     }
 
@@ -878,6 +887,11 @@ export class User implements IUser {
         data["id"] = this.id;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        if (Array.isArray(this.assignmentList)) {
+            data["assignmentList"] = [];
+            for (let item of this.assignmentList)
+                data["assignmentList"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -886,6 +900,7 @@ export interface IUser {
     id: number;
     firstName?: string | undefined;
     lastName?: string | undefined;
+    assignmentList: User[];
 }
 
 export class Assignment implements IAssignment {

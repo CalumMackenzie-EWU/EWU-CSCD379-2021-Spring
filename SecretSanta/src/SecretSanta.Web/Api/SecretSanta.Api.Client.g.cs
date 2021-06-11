@@ -1505,6 +1505,10 @@ namespace SecretSanta.Web.Api
         [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LastName { get; set; }
     
+        [Newtonsoft.Json.JsonProperty("assignmentList", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<User> AssignmentList { get; set; } = new System.Collections.ObjectModel.Collection<User>();
+    
     
     }
     
