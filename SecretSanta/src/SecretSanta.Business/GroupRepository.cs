@@ -7,6 +7,11 @@ namespace SecretSanta.Business
 {
     public class GroupRepository : IGroupRepository
     {
+        private DbContext DbContext;
+        private void GetContext()
+        {
+            DbContext = new SecretSanta.Data.DbContext();
+        }
         public Group Create(Group item)
         {
             if (item is null)

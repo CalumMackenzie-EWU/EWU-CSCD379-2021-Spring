@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SecretSanta.Data;
+using System.Linq;
 
 namespace SecretSanta.Business
 {
@@ -11,6 +12,12 @@ namespace SecretSanta.Business
         Group Create(Group item);
         void Save(Group item);
         AssignmentResult GenerateAssignments(int groupId);
+        //cal: added during display.
+        bool AddUser(int groupId, int userId);
+        bool RemoveUser(int groupId, int userId);
+        List<User> GetUsers(int groupId);
+        IQueryable<Assignment> GetAssignments(int groupId);
+        
     }
 
 }

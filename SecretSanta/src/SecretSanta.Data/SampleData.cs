@@ -4,9 +4,9 @@ using System.IO;
 
 namespace SecretSanta.Data
 {
-    public class SeedData
+    public class SampleData
     {
-        public SeedData()
+        public SampleData()
         {
             
 

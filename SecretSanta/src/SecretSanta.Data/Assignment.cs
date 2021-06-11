@@ -5,13 +5,19 @@ namespace SecretSanta.Data
 {
     public class Assignment
     {
+        // public User Giver { get; set;}
+        // public User Receiver { get; set;}
+
+        // public int Id{get;set;}
+        // public DateTime GiftDue{get;set;}
+
+        // public List<Group> Groups { get; set; }
+
+        public int Id {get; set;}
+        public int GroupId { get; set;}
         public User Giver { get; set;}
         public User Receiver { get; set;}
-
-        public int Id{get;set;}
         public DateTime GiftDue{get;set;}
-
-        public List<Group> Groups { get; set; }
 
         public Assignment(User giver, User recipient)
         {

@@ -14,7 +14,8 @@ namespace SecretSanta.Api
             CreateHostBuilder(args).Build().Run();
 
             //cal: added this below when trying to seed database
-            SeedData sData = new SeedData();
+            //SeedData sData = new SeedData();
+            SampleData sData = new SampleData();
             sData.StartSeeding();
         
         }//end main

@@ -19,6 +19,7 @@ namespace SecretSanta.Data
         public List<User> Users { get; set;} 
         //public List<Assignment> Assignments { get; } = new();
         public List<Assignment> Assignments { get; set;}
+        
 
         
     }
