@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SecretSanta.Business;
 using SecretSanta.Data;
 
@@ -32,5 +33,25 @@ namespace SecretSanta.Api.Tests.Business
         public bool Remove(int id) => Groups.Remove(id);
 
         public void Save(Group item) => Groups[item.Id] = item;
+
+        public bool AddUser(int groupId, int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveUser(int groupId, int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> GetUsers(int groupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Assignment> GetAssignments(int groupId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

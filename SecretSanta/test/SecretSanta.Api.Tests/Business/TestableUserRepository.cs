@@ -14,6 +14,16 @@ namespace SecretSanta.Api.Tests.Business
             return item;
         }
 
+        public List<User> GetAssignmentUsers(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<Gift> GetGifts(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public User? GetItem(int id)
         {
             Users.TryGetValue(id, out User? rv);
