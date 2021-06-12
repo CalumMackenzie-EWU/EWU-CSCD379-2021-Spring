@@ -8,13 +8,19 @@ namespace SecretSanta.Business
     public class UserRepository : IUserRepository
     {
         private DbContext DbContext;
+        private string previousPath = Directory.GetCurrentDirectory();
         private void GetContext()
         {
             string workFrom = @"..\SecretSanta.Data\";
-            string previousPath = Directory.GetCurrentDirectory();
+            //string previousPath = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(workFrom);
             DbContext = new SecretSanta.Data.DbContext();
+            //Directory.SetCurrentDirectory(previousPath);
+        }
+        private void CloseOut()
+        {
             Directory.SetCurrentDirectory(previousPath);
+            DbContext.Dispose();
         }
         public User Create(User item)
         {
@@ -27,6 +33,8 @@ namespace SecretSanta.Business
             GetContext();
             DbContext.Users.Add(item);
             DbContext.SaveChanges();
+
+            CloseOut();
             return item;
         }
 
@@ -38,14 +46,19 @@ namespace SecretSanta.Business
             // }
             // return null;
             GetContext();
-            return DbContext.Users.Find(id);
+
+            var rUsers = DbContext.Users.Find(id);
+            CloseOut();
+            return rUsers;
         }
 
         public ICollection<User> List()
         {
             //return MockData.Users.Values;
             GetContext();
-            return DbContext.Users.ToList();
+            var rUsers = DbContext.Users.ToList();
+            CloseOut();
+            return rUsers;
         }
 
         public bool Remove(int id)
@@ -57,6 +70,7 @@ namespace SecretSanta.Business
                 GetContext();
                 DbContext.Users.Remove(toRemove);
                 DbContext.SaveChanges();
+                CloseOut();
                 return true;
             }
             else{
@@ -76,6 +90,7 @@ namespace SecretSanta.Business
             Remove(item.Id);
             DbContext.Users.Add(item);
             DbContext.SaveChanges();
+            CloseOut();
         }
 
         public List<User> GetAssignmentUsers(int id)
@@ -95,7 +110,7 @@ namespace SecretSanta.Business
                      rUsers.AddRange(DbContext.Users.Where(item => item.Id == tempId));
                 }
             }
-
+            CloseOut();
             return rUsers;
 
         }
@@ -103,7 +118,9 @@ namespace SecretSanta.Business
         public List<Gift> GetGifts(int id)
         {
             GetContext();
-            return DbContext.Gifts.Where(item => item.GiftFor.Id == id).ToList();
+            var rGifts = DbContext.Gifts.Where(item => item.GiftFor.Id == id).ToList();
+            CloseOut();
+            return rGifts;
         }
     }
 }

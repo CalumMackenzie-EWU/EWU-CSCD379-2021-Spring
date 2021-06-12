@@ -9,13 +9,19 @@ namespace SecretSanta.Business
     public class GroupRepository : IGroupRepository
     {
         private DbContext DbContext;
+        private string previousPath = Directory.GetCurrentDirectory();
         private void GetContext()
         {
             string workFrom = @"..\SecretSanta.Data\";
-            string previousPath = Directory.GetCurrentDirectory();
+            //string previousPath = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(workFrom);
             DbContext = new SecretSanta.Data.DbContext();
+            //Directory.SetCurrentDirectory(previousPath);
+        }
+        private void CloseOut()
+        {
             Directory.SetCurrentDirectory(previousPath);
+            DbContext.Dispose();
         }
         public Group Create(Group item)
         {
@@ -28,6 +34,7 @@ namespace SecretSanta.Business
             GetContext();
             DbContext.Groups.Add(item);
             DbContext.SaveChanges();
+            CloseOut();
             return item;
         }
 
@@ -39,14 +46,18 @@ namespace SecretSanta.Business
             // }
             // return null;
             GetContext();
-            return DbContext.Groups.Find(id);
+            var rGroups = DbContext.Groups.Find(id);
+            CloseOut();
+            return rGroups;
         }
 
         public ICollection<Group> List()
         {
             //return MockData.Groups.Values;
             GetContext();
-            return DbContext.Groups.ToList();
+            var rGroups = DbContext.Groups.ToList();
+            CloseOut();
+            return rGroups;
         }
 
         public bool Remove(int id)//cal:!!!!THIS MIGHT NOT BE ENOUGH!!!!
@@ -58,6 +69,7 @@ namespace SecretSanta.Business
                 GetContext();
                 DbContext.Groups.Remove(toRemove);
                 DbContext.SaveChanges();
+                CloseOut();
                 return true;
             }
             else{
@@ -124,6 +136,7 @@ namespace SecretSanta.Business
                 theGroup.Assignments[theGroup.Assignments.Count].Id = theGroup.Assignments.Max(g => g.Id) + 1;
             }
             DbContext.SaveChanges();
+            CloseOut();
             return AssignmentResult.Success();
         }
 
@@ -137,6 +150,7 @@ namespace SecretSanta.Business
             {
                 group.Users.Add(user);
                 DbContext.SaveChanges();
+                CloseOut();
                 return true;
             }
             else{
@@ -154,6 +168,7 @@ namespace SecretSanta.Business
             {
                 group.Users.Remove(user);
                 DbContext.SaveChanges();
+                CloseOut();
                 return true;
             }
             else{
@@ -171,13 +186,16 @@ namespace SecretSanta.Business
             {
                 rUsers.AddRange(theGroup.Users);
             }
+            CloseOut();
             return rUsers;
         }
 
         public IQueryable<Assignment> GetAssignments(int groupId)
         {
             GetContext();
-            return DbContext.Assignments.Where(item => item.GroupId == groupId);
+            var rAsnmts = DbContext.Assignments.Where(item => item.GroupId == groupId);
+            CloseOut();
+            return rAsnmts;
         }
     }
 }
